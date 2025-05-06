@@ -11,7 +11,7 @@
 	<groupId>com.ufscar.dc.pooa</groupId>
 	<artifactId>leilao.veiculos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>leilao.veiculos</name>
+	<name>leilao-veiculos</name>
 	<description>Projeto de Leilao Veiculos disciplina POOA</description>
 	<url/>
 	<licenses>
