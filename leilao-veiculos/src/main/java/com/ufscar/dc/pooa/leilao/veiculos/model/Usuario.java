@@ -9,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.Set;
 
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(schema = "LEILAO_VEICULOS", name = "TB_USUARIO")

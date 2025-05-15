@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.ufscar.dc.pooa</groupId>
-	<artifactId>leilao.veiculos</artifactId>
+	<artifactId>leilao-veiculos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>leilao-veiculos</name>
-	<description>Projeto de Leilao Veiculos disciplina POOA</description>
+	<name>leilao_veiculos</name>
+	<description>Projeto de Leilao de Veiculos Disciplina POOA</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -54,7 +54,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
@@ -76,7 +75,6 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
