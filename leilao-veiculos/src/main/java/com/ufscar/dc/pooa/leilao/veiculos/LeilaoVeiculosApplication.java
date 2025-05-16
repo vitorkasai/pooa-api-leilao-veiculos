@@ -1,4 +1,4 @@
-package com.ufscar.dc.pooa.leilao.veiculos.application;
+package com.ufscar.dc.pooa.leilao.veiculos;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
