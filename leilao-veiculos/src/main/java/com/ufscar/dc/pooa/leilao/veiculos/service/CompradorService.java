@@ -3,17 +3,17 @@ package com.ufscar.dc.pooa.leilao.veiculos.service;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.CompradorBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CompradorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
+import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
+import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.CompradorRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
-@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CompradorService {
+    private static final AppLogger log = AppLoggerFactory.getAppLogger(CompradorService.class);
     private final CompradorRepository repository;
     private final CompradorBuilder builder;
 
