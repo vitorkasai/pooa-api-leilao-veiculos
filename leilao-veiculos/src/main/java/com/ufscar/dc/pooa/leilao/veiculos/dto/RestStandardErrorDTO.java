@@ -1,4 +1,4 @@
-package com.ufscar.dc.pooa.leilao.veiculos.controller.exception;
+package com.ufscar.dc.pooa.leilao.veiculos.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.time.Instant;
 
 @Getter
 @Setter
-public class RestStandardError {
+public class RestStandardErrorDTO {
     private String error;
     private String message;
     private String path;
