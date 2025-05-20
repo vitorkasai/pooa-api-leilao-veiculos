@@ -4,7 +4,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.builder.CompradorBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CompradorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLoggerFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.CompradorRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
 import lombok.RequiredArgsConstructor;
