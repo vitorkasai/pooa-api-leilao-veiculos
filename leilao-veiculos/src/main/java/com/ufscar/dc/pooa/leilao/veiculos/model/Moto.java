@@ -14,19 +14,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class Moto extends Veiculo{
-    @Column(name = "CILINDRADA", nullable = false)
+    @Column(name = "CILINDRADA")
     private int cilindrada;
 
-    @Column(name = "MARCHA", nullable = false)
+    @Column(name = "MARCHA")
     private int marcha;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "PARTIDA", nullable = false)
+    @Column(name = "PARTIDA")
     private Partida partida;
-
-    @OneToOne
-    @JoinColumn(name = "ID_VEICULO")
-    private Veiculo veiculo;
 
     public Moto(String modelo, LocalDateTime dhCriacao, String placa, String cor, String renavam, int quilometragem, String descricao, int cilindrada, int marcha, Partida partida) {
         super(modelo, dhCriacao, placa, cor, renavam, quilometragem, descricao);

@@ -15,20 +15,16 @@ import java.time.LocalDateTime;
 @Setter
 @DiscriminatorValue("CARRO")
 public class Carro extends Veiculo {
-    @Column(name = "NUMERO_PORTAS", nullable = false)
+    @Column(name = "NUMERO_PORTAS")
     private int numeroPortas;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "DIRECAO", nullable = false)
+    @Column(name = "DIRECAO")
     private Direcao direcao;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "CAMBIO", nullable = false)
+    @Column(name = "CAMBIO")
     private Cambio cambio;
-
-    @OneToOne
-    @JoinColumn(name = "ID_VEICULO")
-    private Veiculo veiculo;
 
     public Carro(String modelo, LocalDateTime dhCriacao, String placa, String cor, String renavam, int quilometragem, String descricao, int numeroPortas, Direcao direcao, Cambio cambio) {
         super(modelo, dhCriacao, placa, cor, renavam, quilometragem, descricao);
