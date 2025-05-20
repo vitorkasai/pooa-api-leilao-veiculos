@@ -5,11 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3e7b64a8-b290-447b-8520-60c52c9ac6a8" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/Notificacao.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/Usuario.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/leilao-veiculos/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/leilao-veiculos/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docs/script.sql" beforeDir="false" afterPath="$PROJECT_DIR$/docs/script.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/Carro.java" beforeDir="false" afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/Carro.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/Moto.java" beforeDir="false" afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/Moto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/enums/Cambio.java" beforeDir="false" afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/indicator/Cambio.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/enums/Direcao.java" beforeDir="false" afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/indicator/Direcao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/model/enums/Partida.java" beforeDir="false" afterPath="$PROJECT_DIR$/leilao-veiculos/src/main/java/com/ufscar/dc/pooa/leilao/veiculos/indicator/Partida.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,12 +49,16 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
+    "git-widget-placeholder": "feat/add__veiculos__entities__and__veiculosFactory",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/UFSCar/Documents/Disciplinas/pooa-api-leilao-veiculos",
+    "last_opened_file_path": "/home/jose/leilao",
+    "node.js.detected.package.eslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "settings.editor.selected.configurable": "MavenSettings"
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "MavenSettings",
+    "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager" selected="Application.Main">
@@ -75,6 +81,14 @@
       <item itemvalue="Spring Boot.LeilaoVeiculosApplication" />
     </list>
   </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.25659.59" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.25659.59" />
+      </set>
+    </attachedChunks>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -83,7 +97,13 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1747092875240</updated>
+      <workItem from="1747336935026" duration="33000" />
+      <workItem from="1747691306157" duration="29000" />
+      <workItem from="1747691745750" duration="309000" />
     </task>
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
 </project>
