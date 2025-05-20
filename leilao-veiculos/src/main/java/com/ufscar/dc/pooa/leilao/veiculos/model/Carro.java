@@ -1,14 +1,18 @@
 package com.ufscar.dc.pooa.leilao.veiculos.model;
 
-import com.ufscar.dc.pooa.leilao.veiculos.model.enums.Cambio;
-import com.ufscar.dc.pooa.leilao.veiculos.model.enums.Direcao;
+import com.ufscar.dc.pooa.leilao.veiculos.indicator.Cambio;
+import com.ufscar.dc.pooa.leilao.veiculos.indicator.Direcao;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @DiscriminatorValue("CARRO")
 public class Carro extends Veiculo {
     @Column(name = "NUMERO_PORTAS", nullable = false)
@@ -33,27 +37,5 @@ public class Carro extends Veiculo {
         this.cambio = cambio;
     }
 
-    public int getNumeroPortas() {
-        return numeroPortas;
-    }
 
-    public void setNumeroPortas(int numeroPortas) {
-        this.numeroPortas = numeroPortas;
-    }
-
-    public Direcao getDirecao() {
-        return direcao;
-    }
-
-    public void setDirecao(Direcao direcao) {
-        this.direcao = direcao;
-    }
-
-    public Cambio getCambio() {
-        return cambio;
-    }
-
-    public void setCambio(Cambio cambio) {
-        this.cambio = cambio;
-    }
 }

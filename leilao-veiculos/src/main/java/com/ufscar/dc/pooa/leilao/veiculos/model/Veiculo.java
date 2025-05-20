@@ -2,11 +2,15 @@ package com.ufscar.dc.pooa.leilao.veiculos.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
 @Table(schema = "LEILAO_VEICULOS", name = "TB_VEICULO")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(
@@ -50,70 +54,6 @@ public abstract class Veiculo {
         this.cor = cor;
         this.renavam = renavam;
         this.quilometragem = quilometragem;
-        this.descricao = descricao;
-    }
-
-    public String getRenavam() {
-        return renavam;
-    }
-
-    public void setRenavam(String renavam) {
-        this.renavam = renavam;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getModelo() {
-        return modelo;
-    }
-
-    public void setModelo(String modelo) {
-        this.modelo = modelo;
-    }
-
-    public LocalDateTime getDhCriacao() {
-        return dhCriacao;
-    }
-
-    public void setDhCriacao(LocalDateTime dhCriacao) {
-        this.dhCriacao = dhCriacao;
-    }
-
-    public String getPlaca() {
-        return placa;
-    }
-
-    public void setPlaca(String placa) {
-        this.placa = placa;
-    }
-
-    public String getCor() {
-        return cor;
-    }
-
-    public void setCor(String cor) {
-        this.cor = cor;
-    }
-
-    public int getQuilometragem() {
-        return quilometragem;
-    }
-
-    public void setQuilometragem(int quilometragem) {
-        this.quilometragem = quilometragem;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
         this.descricao = descricao;
     }
 }

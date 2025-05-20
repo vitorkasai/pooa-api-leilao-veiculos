@@ -1,14 +1,18 @@
 package com.ufscar.dc.pooa.leilao.veiculos.model;
 
-import com.ufscar.dc.pooa.leilao.veiculos.model.enums.Partida;
+import com.ufscar.dc.pooa.leilao.veiculos.indicator.Partida;
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @NoArgsConstructor
 @DiscriminatorValue("MOTO")
+@Getter
+@Setter
 public class Moto extends Veiculo{
     @Column(name = "CILINDRADA", nullable = false)
     private int cilindrada;
@@ -28,30 +32,6 @@ public class Moto extends Veiculo{
         super(modelo, dhCriacao, placa, cor, renavam, quilometragem, descricao);
         this.cilindrada = cilindrada;
         this.marcha = marcha;
-        this.partida = partida;
-    }
-
-    public int getCilindrada() {
-        return cilindrada;
-    }
-
-    public void setCilindrada(int cilindrada) {
-        this.cilindrada = cilindrada;
-    }
-
-    public int getMarcha() {
-        return marcha;
-    }
-
-    public void setMarcha(int marcha) {
-        this.marcha = marcha;
-    }
-
-    public Partida getPartida() {
-        return partida;
-    }
-
-    public void setPartida(Partida partida) {
         this.partida = partida;
     }
 }

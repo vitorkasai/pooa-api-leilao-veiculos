@@ -1,4 +1,4 @@
-package com.ufscar.dc.pooa.leilao.veiculos.model.enums;
+package com.ufscar.dc.pooa.leilao.veiculos.indicator;
 
 public enum Partida {
     ELETRICA,
