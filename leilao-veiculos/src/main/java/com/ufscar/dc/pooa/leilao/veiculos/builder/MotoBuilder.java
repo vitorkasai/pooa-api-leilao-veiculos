@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 public class MotoBuilder {
 
     public Veiculo build(VeiculoDTO dto) {
-        Moto moto = VeiculoFactory.criarMoto();
+        Moto moto = VeiculoFactory.criaMoto();
         moto.setModelo(dto.getModelo());
         moto.setDhCriacao(LocalDateTime.now());
         moto.setPlaca(dto.getPlaca());

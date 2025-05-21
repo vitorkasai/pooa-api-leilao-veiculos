@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class CarroBuilder {
 
     public Veiculo build(VeiculoDTO dto) {
-        Carro carro = VeiculoFactory.criarCarro();
+        Carro carro = VeiculoFactory.criaCarro();
         carro.setModelo(dto.getModelo());
         carro.setDhCriacao(LocalDateTime.now());
         carro.setPlaca(dto.getPlaca());
