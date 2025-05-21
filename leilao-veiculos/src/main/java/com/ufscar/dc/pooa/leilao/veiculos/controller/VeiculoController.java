@@ -23,7 +23,7 @@ public class VeiculoController {
 
     @PostMapping
     public ResponseEntity<?> create(@RequestBody VeiculoDTO dto) {
-        log.info("Criando novo comprador: {}", dto);
+        log.info("Criando novo veiculo: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
