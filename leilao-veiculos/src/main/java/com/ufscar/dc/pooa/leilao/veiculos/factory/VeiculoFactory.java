@@ -5,7 +5,6 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Moto;
 
 
 public class VeiculoFactory {
-
     public static Carro criaCarro() {
         return new Carro();
     }

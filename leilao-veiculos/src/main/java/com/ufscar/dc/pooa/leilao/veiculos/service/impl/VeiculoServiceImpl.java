@@ -4,10 +4,10 @@ import com.ufscar.dc.pooa.leilao.veiculos.builder.CarroBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.MotoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
-import com.ufscar.dc.pooa.leilao.veiculos.factory.VeiculoFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
+import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.TipoVeiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.VeiculoRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VeiculoService;
@@ -19,16 +19,20 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Service
 public class VeiculoServiceImpl implements VeiculoService {
-
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
     private final VeiculoRepository repository;
     private final CarroBuilder carroBuilder;
     private final MotoBuilder motoBuilder;
 
     @Override
+    public Veiculo findDomainById(Long id) {
+        log.debug("Buscando veiculo: {}", id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar veiculo de id: " + id));
+    }
+
+    @Override
     public void create(VeiculoDTO dto) {
         log.debug("Criando novo veículo: {}", dto);
-
         validate(dto);
 
         String tipo = dto.getTipoVeiculo();
@@ -44,6 +48,7 @@ public class VeiculoServiceImpl implements VeiculoService {
 
         repository.save(veiculo);
     }
+
     private static void validate(VeiculoDTO dto) {
         Optional.ofNullable(dto.getModelo()).orElseThrow(() -> new BadRequestException("campo modelo é obrigatório"));
         Optional.ofNullable(dto.getPlaca()).orElseThrow(() -> new BadRequestException("campo placa é obrigatório"));
