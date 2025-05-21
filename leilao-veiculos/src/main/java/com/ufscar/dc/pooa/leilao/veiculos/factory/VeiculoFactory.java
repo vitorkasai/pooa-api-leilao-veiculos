@@ -1,11 +1,11 @@
 package com.ufscar.dc.pooa.leilao.veiculos.factory;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.model.Carro;
-import com.ufscar.dc.pooa.leilao.veiculos.model.Moto;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Cambio;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Direcao;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Partida;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Carro;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Moto;
 
 import java.time.LocalDateTime;
 
