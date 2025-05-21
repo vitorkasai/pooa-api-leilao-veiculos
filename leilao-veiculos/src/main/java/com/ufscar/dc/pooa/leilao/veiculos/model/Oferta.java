@@ -1,12 +1,15 @@
 package com.ufscar.dc.pooa.leilao.veiculos.model;
 
-import jakarta.persistence.*;
-import lombok.*;
-import java.time.LocalDateTime;
-import java.time.LocalDate;
-import java.util.Set;
-
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Set;
 
 @Getter
 @Setter
