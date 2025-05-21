@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Component
 public class CompradorBuilder {
     public Comprador build(CompradorDTO dto) {
-        Comprador comprador = UsuarioFactory.geraComprador();
+        Comprador comprador = UsuarioFactory.criaComprador();
         comprador.setPapel(UsuarioPapel.COMPRADOR.getValue());
         comprador.setNome(dto.getNome());
         comprador.setSobrenome(dto.getSobrenome());
