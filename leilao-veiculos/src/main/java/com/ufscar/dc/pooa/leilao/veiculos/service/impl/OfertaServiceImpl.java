@@ -1,12 +1,10 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
-import com.ufscar.dc.pooa.leilao.veiculos.builder.CompradorBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.EnderecoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.OfertaBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
-import com.ufscar.dc.pooa.leilao.veiculos.indicator.TipoVeiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
