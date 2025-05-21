@@ -1,11 +1,13 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import com.ufscar.dc.pooa.leilao.veiculos.builder.CarroBuilder;
+import com.ufscar.dc.pooa.leilao.veiculos.builder.MotoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.VeiculoFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.TipoVeiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLoggerFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.VeiculoRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VeiculoService;
@@ -20,6 +22,8 @@ public class VeiculoServiceImpl implements VeiculoService {
 
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
     private final VeiculoRepository repository;
+    private final CarroBuilder carroBuilder;
+    private final MotoBuilder motoBuilder;
 
     @Override
     public void create(VeiculoDTO dto) {
@@ -31,9 +35,9 @@ public class VeiculoServiceImpl implements VeiculoService {
         Veiculo veiculo;
 
         if (TipoVeiculo.CARRO.name().equalsIgnoreCase(tipo)) {
-            veiculo = VeiculoFactory.criarCarro(dto);
+            veiculo = carroBuilder.build(dto);
         } else if (TipoVeiculo.MOTO.name().equalsIgnoreCase(tipo)) {
-            veiculo = VeiculoFactory.criarMoto(dto);
+            veiculo = motoBuilder.build(dto);
         } else {
             throw new BadRequestException("Tipo de veículo inválido: " + tipo);
         }
