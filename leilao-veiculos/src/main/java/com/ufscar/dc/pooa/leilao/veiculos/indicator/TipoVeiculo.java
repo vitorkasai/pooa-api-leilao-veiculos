@@ -5,10 +5,9 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum Cambio {
-    MANUAL("MANUAL"),
-    AUTOMATICO("AUTOMÁTICO"),
-    SEMIAUTOMATICO("SEMIAUTOMÁTICO");
+public enum TipoVeiculo {
+    CARRO("CARRO"),
+    MOTO("MOTO");
 
     private final String value;
 }
