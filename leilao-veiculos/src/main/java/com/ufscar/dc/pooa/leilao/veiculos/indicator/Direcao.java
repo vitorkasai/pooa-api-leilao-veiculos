@@ -6,8 +6,10 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum Direcao {
-    DIRECAO_A_ESQUERDA("DIREÇÃO À ESQUERDA"),
-    DIRECAO_A_DIREITA("DIREÇÃO À DIREITA");
+    MANUAL("MANUAL"),
+    HIDRAULICA("HIDRÁULICA"),
+    ELETRICA("ELÉTRICA"),
+    ELETRO_HIDRAULICA("ELETRO-HIDRÁULICA");
 
     private final String value;
 }
