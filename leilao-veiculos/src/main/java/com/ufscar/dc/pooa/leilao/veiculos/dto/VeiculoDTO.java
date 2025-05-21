@@ -6,20 +6,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class VeiculoDTO {
-    private String tipoVeiculo; // "CARRO" ou "MOTO"
+    private String tipoVeiculo;
     private String modelo;
     private String placa;
     private String cor;
     private String renavam;
-    private int quilometragem;
+    private Integer quilometragem;
     private String descricao;
 
-    // Atributos específicos
     private Integer numeroPortas;
-    private String direcao; // Enum
-    private String cambio; // Enum
+    private String direcao;
+    private String cambio;
 
     private Integer cilindrada;
     private Integer marcha;
-    private String partida; // Enum
+    private String partida;
 }

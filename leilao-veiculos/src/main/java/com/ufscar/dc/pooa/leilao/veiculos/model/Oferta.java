@@ -23,11 +23,11 @@ public class Oferta {
     @Column(name = "DH_CRIACAO", nullable = false)
     private LocalDateTime dhCriacao;
 
-    @Column(name = "DATA_INICIO", nullable = false)
-    private LocalDate dataInicio;
+    @Column(name = "DH_INICIO", nullable = false)
+    private LocalDateTime dhInicio;
 
-    @Column(name = "DATA_FIM", nullable = false)
-    private LocalDate dataFim;
+    @Column(name = "DH_FIM", nullable = false)
+    private LocalDateTime dhFim;
 
     @OneToOne
     @JoinColumn(name = "ID_VEICULO", nullable = false, unique = true)
