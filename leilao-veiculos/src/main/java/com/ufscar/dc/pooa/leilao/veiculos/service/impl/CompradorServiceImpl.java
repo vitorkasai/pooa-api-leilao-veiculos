@@ -20,6 +20,7 @@ public class CompradorServiceImpl implements CompradorService {
     private final CompradorRepository repository;
     private final CompradorBuilder builder;
 
+    @Override
     public void create(CompradorDTO dto) {
         log.debug("Criando novo comprador: {}", dto);
         validate(dto);

@@ -1,0 +1,25 @@
+package com.ufscar.dc.pooa.leilao.veiculos.builder;
+
+import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.factory.OfertaFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Endereco;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
+import org.springframework.stereotype.Component;
+
+@Component
+public class OfertaBuilder {
+    public Oferta build(OfertaDTO dto, Vendedor vendedor, Veiculo veiculo, Endereco endereco) {
+        Oferta oferta = OfertaFactory.criaOferta();
+        oferta.setDhInicio(dto.getDhInicio());
+        oferta.setDhFim(dto.getDhFim());
+        oferta.setValorInicial(dto.getValorInicial());
+        oferta.setValorIncremental(dto.getValorIncremental());
+        oferta.setEstado(dto.getEstado());
+        oferta.setVendedor(vendedor);
+        oferta.setVeiculo(veiculo);
+        oferta.setEndereco(endereco);
+        return oferta;
+    }
+}

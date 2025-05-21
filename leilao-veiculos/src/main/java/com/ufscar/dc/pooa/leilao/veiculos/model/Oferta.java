@@ -44,7 +44,7 @@ public class Oferta {
     private double valorInicial;
 
     @Column(name = "VALOR_INCREMENTAL", nullable = false)
-    private int valorIncremental;
+    private double valorIncremental;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "ESTADO", nullable = false)

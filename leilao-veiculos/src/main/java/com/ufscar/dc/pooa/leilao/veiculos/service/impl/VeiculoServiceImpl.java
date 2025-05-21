@@ -2,6 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.VeiculoFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.TipoVeiculo;
@@ -19,6 +20,12 @@ import java.util.Optional;
 public class VeiculoServiceImpl implements VeiculoService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
     private final VeiculoRepository repository;
+
+    @Override
+    public Veiculo findDomainById(Long id) {
+        log.debug("Buscando veiculo: {}", id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar veiculo de id: " + id));
+    }
 
     @Override
     public void create(VeiculoDTO dto) {

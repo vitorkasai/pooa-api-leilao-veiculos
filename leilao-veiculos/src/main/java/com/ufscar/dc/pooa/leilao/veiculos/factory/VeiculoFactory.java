@@ -10,7 +10,6 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Moto;
 import java.time.LocalDateTime;
 
 public class VeiculoFactory {
-
     public static Carro criarCarro(VeiculoDTO dto) {
         return new Carro(
                 dto.getModelo(),
