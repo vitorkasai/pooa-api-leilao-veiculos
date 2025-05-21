@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public enum UsuarioPapelIndicator {
+public enum UsuarioPapel {
     COMPRADOR("COMPRADOR"),
     VENDEDOR("VENDEDOR"),
     LEILOEIRO("LEILOEIRO");

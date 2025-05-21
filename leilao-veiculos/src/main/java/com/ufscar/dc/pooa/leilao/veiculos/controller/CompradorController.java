@@ -2,7 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CompradorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLoggerFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,7 +20,7 @@ public class CompradorController {
     private final CompradorService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody CompradorDTO dto) {
+    public ResponseEntity<String> create(@RequestBody CompradorDTO dto) {
         log.info("Criando novo comprador: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

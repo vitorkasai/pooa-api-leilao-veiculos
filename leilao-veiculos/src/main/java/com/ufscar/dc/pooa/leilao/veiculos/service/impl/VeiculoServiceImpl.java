@@ -40,7 +40,6 @@ public class VeiculoServiceImpl implements VeiculoService {
 
         repository.save(veiculo);
     }
-
     private static void validate(VeiculoDTO dto) {
         Optional.ofNullable(dto.getModelo()).orElseThrow(() -> new BadRequestException("campo modelo é obrigatório"));
         Optional.ofNullable(dto.getPlaca()).orElseThrow(() -> new BadRequestException("campo placa é obrigatório"));
