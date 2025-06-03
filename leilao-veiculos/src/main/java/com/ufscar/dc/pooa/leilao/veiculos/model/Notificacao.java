@@ -3,12 +3,16 @@ package com.ufscar.dc.pooa.leilao.veiculos.model;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Entity
 @Builder
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(schema = "LEILAO_VEICULOS", name = "TB_NOTIFICACAO")
@@ -30,44 +34,4 @@ public class Notificacao {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ID_USUARIO")
     private Usuario usuario;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getConteudo() {
-        return conteudo;
-    }
-
-    public void setConteudo(String conteudo) {
-        this.conteudo = conteudo;
-    }
-
-    public boolean isInVisualizado() {
-        return inVisualizado;
-    }
-
-    public void setInVisualizado(boolean inVisualizado) {
-        this.inVisualizado = inVisualizado;
-    }
-
-    public LocalDateTime getDhCriacao() {
-        return dhCriacao;
-    }
-
-    public void setDhCriacao(LocalDateTime dhCriacao) {
-        this.dhCriacao = dhCriacao;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
 }
