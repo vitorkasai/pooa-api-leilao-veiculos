@@ -3,7 +3,6 @@ package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.LanceBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.LanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
-import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
@@ -13,6 +12,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.LanceRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
+import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,6 +23,7 @@ import java.util.Optional;
 @Service
 public class LanceServiceImpl implements LanceService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
+    private NotificacaoService notificacaoService;
     private final CompradorService compradorService;
     private final OfertaService ofertaService;
     private final LanceBuilder builder;
@@ -55,6 +56,12 @@ public class LanceServiceImpl implements LanceService {
             throw new BadRequestException("O valor deve ser maior que o valor inicial da oferta");
         }
         repository.save(builder.build(dto, comprador, oferta));
+        setNotificacaoTipo(NotificacaoLanceRecebido.getInstancia());
+        notificacaoService.createNotificacao();
+    }
+
+    private void setNotificacaoTipo(NotificacaoService notificacaoTipo) {
+        this.notificacaoService = notificacaoTipo;
     }
 
     private static void validate(LanceDTO dto) {
