@@ -5,6 +5,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.builder.OfertaBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
@@ -15,6 +16,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.service.VendedorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -33,6 +35,14 @@ public class OfertaServiceImpl implements OfertaService {
         validate(dto);
         Vendedor vendedor = vendedorService.findDomainById(dto.getIdVendedor());
         Veiculo veiculo = veiculoService.findDomainById(dto.getIdVeiculo());
+        LocalDateTime now = LocalDateTime.now();
+        if (dto.getDhInicio().isBefore(now)) {
+            throw new BadRequestException("dhInicio deve ser mais velha que data atual");
+        }
+        if (dto.getDhInicio().isAfter(dto.getDhFim())) {
+            throw new BadRequestException("dhFim deve ser mais velha que dhInicio");
+        }
+        dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
     }
 
@@ -41,7 +51,6 @@ public class OfertaServiceImpl implements OfertaService {
         Optional.ofNullable(dto.getDhFim()).orElseThrow(() -> new BadRequestException("campo dhFim é obrigatório"));
         Optional.ofNullable(dto.getValorInicial()).orElseThrow(() -> new BadRequestException("campo valorInicial é obrigatório"));
         Optional.ofNullable(dto.getValorIncremental()).orElseThrow(() -> new BadRequestException("campo valorIncremental é obrigatório"));
-        Optional.ofNullable(dto.getEstado()).orElseThrow(() -> new BadRequestException("campo estado é obrigatório"));
         Optional.ofNullable(dto.getIdVendedor()).orElseThrow(() -> new BadRequestException("campo idVendedor é obrigatório"));
         Optional.ofNullable(dto.getIdVeiculo()).orElseThrow(() -> new BadRequestException("campo idVeiculo é obrigatório"));
         Optional.ofNullable(dto.getEndereco().getEstado()).orElseThrow(() -> new BadRequestException("campo endereco.estado é obrigatório"));

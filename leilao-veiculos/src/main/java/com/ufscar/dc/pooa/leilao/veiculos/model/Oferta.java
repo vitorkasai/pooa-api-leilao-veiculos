@@ -35,7 +35,7 @@ public class Oferta {
     @JoinColumn(name = "ID_VEICULO", nullable = false, unique = true)
     private Veiculo veiculo;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "ID_ENDERECO", nullable = false, unique = true)
     private Endereco endereco;
 
