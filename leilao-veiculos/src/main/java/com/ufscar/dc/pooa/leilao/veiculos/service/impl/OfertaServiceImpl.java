@@ -12,6 +12,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.OfertaRepository;
+import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VeiculoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VendedorService;
@@ -30,6 +31,7 @@ public class OfertaServiceImpl implements OfertaService {
     private final EnderecoBuilder enderecoBuilder;
     private final OfertaBuilder builder;
     private final OfertaRepository repository;
+    private NotificacaoService notificacaoService;
 
     @Override
     public Oferta findDomainById(Long id) {
@@ -54,6 +56,13 @@ public class OfertaServiceImpl implements OfertaService {
         }
         dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
+        
+        setNotificacaoTipo(new NotificacaoLanceRecebido());
+        notificacaoService.createNotificacao();
+    }
+    
+    private void setNotificacaoTipo(NotificacaoService notificacaoTipo) {
+    	this.notificacaoService = notificacaoTipo;
     }
 
     private static void validate(OfertaDTO dto) {

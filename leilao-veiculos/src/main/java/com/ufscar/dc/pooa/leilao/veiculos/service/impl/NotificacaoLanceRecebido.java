@@ -6,7 +6,7 @@ public class NotificacaoLanceRecebido implements NotificacaoService {
 
 	@Override
 	public void createNotificacao() {
-		// TODO Auto-generated method stub
+		System.out.println("Lance recebido");
 		
 	}
 
