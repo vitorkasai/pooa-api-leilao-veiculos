@@ -5,6 +5,8 @@ import com.ufscar.dc.pooa.leilao.veiculos.factory.EnderecoFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Endereco;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class EnderecoBuilder {
     public Endereco build(EnderecoDTO dto) {
@@ -15,6 +17,7 @@ public class EnderecoBuilder {
         endereco.setBairro(dto.getBairro());
         endereco.setRua(dto.getRua());
         endereco.setNumero(dto.getNumero());
+        endereco.setDhCriacao(LocalDateTime.now());
         return endereco;
     }
 }

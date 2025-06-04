@@ -8,12 +8,15 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDateTime;
+
 @Component
 public class OfertaBuilder {
     public Oferta build(OfertaDTO dto, Vendedor vendedor, Veiculo veiculo, Endereco endereco) {
         Oferta oferta = OfertaFactory.criaOferta();
         oferta.setDhInicio(dto.getDhInicio());
         oferta.setDhFim(dto.getDhFim());
+        oferta.setDhCriacao(LocalDateTime.now());
         oferta.setValorInicial(dto.getValorInicial());
         oferta.setValorIncremental(dto.getValorIncremental());
         oferta.setEstado(dto.getEstado());
