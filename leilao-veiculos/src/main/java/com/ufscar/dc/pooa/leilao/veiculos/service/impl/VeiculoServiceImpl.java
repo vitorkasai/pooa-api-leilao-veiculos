@@ -40,32 +40,30 @@ public class VeiculoServiceImpl implements VeiculoService {
 
         if (TipoVeiculo.CARRO.name().equalsIgnoreCase(tipo)) {
             veiculo = carroBuilder.build(dto);
-        } else if (TipoVeiculo.MOTO.name().equalsIgnoreCase(tipo)) {
-            veiculo = motoBuilder.build(dto);
         } else {
-            throw new BadRequestException("Tipo de veículo inválido: " + tipo);
+            veiculo = motoBuilder.build(dto);
         }
 
         repository.save(veiculo);
     }
 
     private static void validate(VeiculoDTO dto) {
-        Optional.ofNullable(dto.getModelo()).orElseThrow(() -> new BadRequestException("campo modelo é obrigatório"));
-        Optional.ofNullable(dto.getPlaca()).orElseThrow(() -> new BadRequestException("campo placa é obrigatório"));
-        Optional.ofNullable(dto.getCor()).orElseThrow(() -> new BadRequestException("campo cor é obrigatório"));
-        Optional.ofNullable(dto.getRenavam()).orElseThrow(() -> new BadRequestException("campo renavam é obrigatório"));
-        Optional.ofNullable(dto.getTipoVeiculo()).orElseThrow(() -> new BadRequestException("campo tipoVeiculo é obrigatório"));
+        Optional.ofNullable(dto.getModelo()).orElseThrow(() -> new BadRequestException("Campo modelo é obrigatório"));
+        Optional.ofNullable(dto.getPlaca()).orElseThrow(() -> new BadRequestException("Campo placa é obrigatório"));
+        Optional.ofNullable(dto.getCor()).orElseThrow(() -> new BadRequestException("Campo cor é obrigatório"));
+        Optional.ofNullable(dto.getRenavam()).orElseThrow(() -> new BadRequestException("Campo renavam é obrigatório"));
+        Optional.ofNullable(dto.getTipoVeiculo()).orElseThrow(() -> new BadRequestException("Campo tipoVeiculo é obrigatório"));
 
         String tipo = dto.getTipoVeiculo();
 
         if (TipoVeiculo.CARRO.name().equalsIgnoreCase(tipo)) {
-            Optional.ofNullable(dto.getNumeroPortas()).orElseThrow(() -> new BadRequestException("campo numeroPortas é obrigatório para CARRO"));
-            Optional.ofNullable(dto.getDirecao()).orElseThrow(() -> new BadRequestException("campo direcao é obrigatório para CARRO"));
-            Optional.ofNullable(dto.getCambio()).orElseThrow(() -> new BadRequestException("campo cambio é obrigatório para CARRO"));
+            Optional.ofNullable(dto.getNumeroPortas()).orElseThrow(() -> new BadRequestException("Campo numeroPortas é obrigatório para CARRO"));
+            Optional.ofNullable(dto.getDirecao()).orElseThrow(() -> new BadRequestException("Campo direcao é obrigatório para CARRO"));
+            Optional.ofNullable(dto.getCambio()).orElseThrow(() -> new BadRequestException("Campo cambio é obrigatório para CARRO"));
         } else if (TipoVeiculo.MOTO.name().equalsIgnoreCase(tipo)) {
-            Optional.ofNullable(dto.getCilindrada()).orElseThrow(() -> new BadRequestException("campo cilindrada é obrigatório para MOTO"));
-            Optional.ofNullable(dto.getMarcha()).orElseThrow(() -> new BadRequestException("campo marcha é obrigatório para MOTO"));
-            Optional.ofNullable(dto.getPartida()).orElseThrow(() -> new BadRequestException("campo partida é obrigatório para MOTO"));
+            Optional.ofNullable(dto.getCilindrada()).orElseThrow(() -> new BadRequestException("Campo cilindrada é obrigatório para MOTO"));
+            Optional.ofNullable(dto.getMarcha()).orElseThrow(() -> new BadRequestException("Campo marcha é obrigatório para MOTO"));
+            Optional.ofNullable(dto.getPartida()).orElseThrow(() -> new BadRequestException("Campo partida é obrigatório para MOTO"));
         } else {
             throw new BadRequestException("Tipo de veículo inválido: " + tipo);
         }

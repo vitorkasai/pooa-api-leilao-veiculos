@@ -13,7 +13,7 @@ public class LanceBuilder {
     public Lance build(LanceDTO dto, Comprador comprador, Oferta oferta) {
         Lance lance = new Lance();
         lance.setValor(dto.getValor());
-        oferta.setDhCriacao(LocalDateTime.now());
+        lance.setDhCriacao(LocalDateTime.now());
         lance.setOferta(oferta);
         lance.setComprador(comprador);
         return lance;

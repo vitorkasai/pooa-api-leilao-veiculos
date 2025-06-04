@@ -35,12 +35,12 @@ public class CompradorServiceImpl implements CompradorService {
     }
 
     private static void validate(CompradorDTO dto) {
-        Optional.ofNullable(dto.getNome()).orElseThrow(() -> new BadRequestException("campo nome é obrigatório"));
-        Optional.ofNullable(dto.getSobrenome()).orElseThrow(() -> new BadRequestException("campo sobrenome é obrigatório"));
-        Optional.ofNullable(dto.getEmail()).orElseThrow(() -> new BadRequestException("campo email é obrigatório"));
-        Optional.ofNullable(dto.getTelefone()).orElseThrow(() -> new BadRequestException("campo telefone é obrigatório"));
-        Optional.ofNullable(dto.getDocumento()).orElseThrow(() -> new BadRequestException("campo documento é obrigatório"));
-        Optional.ofNullable(dto.getInteresse()).orElseThrow(() -> new BadRequestException("campo interesse é obrigatório"));
-        Optional.ofNullable(dto.getDataNascimento()).orElseThrow(() -> new BadRequestException("campo dataNascimento é obrigatório"));
+        Optional.ofNullable(dto.getNome()).orElseThrow(() -> new BadRequestException("Campo nome é obrigatório"));
+        Optional.ofNullable(dto.getSobrenome()).orElseThrow(() -> new BadRequestException("Campo sobrenome é obrigatório"));
+        Optional.ofNullable(dto.getEmail()).orElseThrow(() -> new BadRequestException("Campo email é obrigatório"));
+        Optional.ofNullable(dto.getTelefone()).orElseThrow(() -> new BadRequestException("Campo telefone é obrigatório"));
+        Optional.ofNullable(dto.getDocumento()).orElseThrow(() -> new BadRequestException("Campo documento é obrigatório"));
+        Optional.ofNullable(dto.getInteresse()).orElseThrow(() -> new BadRequestException("Campo interesse é obrigatório"));
+        Optional.ofNullable(dto.getDataNascimento()).orElseThrow(() -> new BadRequestException("Campo dataNascimento é obrigatório"));
     }
 }

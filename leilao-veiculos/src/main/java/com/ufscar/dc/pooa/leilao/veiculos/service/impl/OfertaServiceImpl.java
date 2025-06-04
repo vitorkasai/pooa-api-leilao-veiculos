@@ -45,27 +45,29 @@ public class OfertaServiceImpl implements OfertaService {
         Veiculo veiculo = veiculoService.findDomainById(dto.getIdVeiculo());
         LocalDateTime now = LocalDateTime.now();
         if (dto.getDhInicio().isBefore(now)) {
-            throw new BadRequestException("dhInicio deve ser mais velha que data atual");
+            log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);
+            throw new BadRequestException("O dhInicio deve ser mais velha que data atual");
         }
         if (dto.getDhInicio().isAfter(dto.getDhFim())) {
-            throw new BadRequestException("dhFim deve ser mais velha que dhInicio");
+            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dto.getDhFim(), dto.getDhInicio());
+            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
         }
         dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
     }
 
     private static void validate(OfertaDTO dto) {
-        Optional.ofNullable(dto.getDhInicio()).orElseThrow(() -> new BadRequestException("campo dhInicio é obrigatório"));
-        Optional.ofNullable(dto.getDhFim()).orElseThrow(() -> new BadRequestException("campo dhFim é obrigatório"));
-        Optional.ofNullable(dto.getValorInicial()).orElseThrow(() -> new BadRequestException("campo valorInicial é obrigatório"));
-        Optional.ofNullable(dto.getValorIncremental()).orElseThrow(() -> new BadRequestException("campo valorIncremental é obrigatório"));
-        Optional.ofNullable(dto.getIdVendedor()).orElseThrow(() -> new BadRequestException("campo idVendedor é obrigatório"));
-        Optional.ofNullable(dto.getIdVeiculo()).orElseThrow(() -> new BadRequestException("campo idVeiculo é obrigatório"));
-        Optional.ofNullable(dto.getEndereco().getEstado()).orElseThrow(() -> new BadRequestException("campo endereco.estado é obrigatório"));
-        Optional.ofNullable(dto.getEndereco().getCidade()).orElseThrow(() -> new BadRequestException("campo endereco.cidade é obrigatório"));
-        Optional.ofNullable(dto.getEndereco().getCep()).orElseThrow(() -> new BadRequestException("campo endereco.cep é obrigatório"));
-        Optional.ofNullable(dto.getEndereco().getBairro()).orElseThrow(() -> new BadRequestException("campo endereco.bairro é obrigatório"));
-        Optional.ofNullable(dto.getEndereco().getRua()).orElseThrow(() -> new BadRequestException("campo endereco.rua é obrigatório"));
-        Optional.ofNullable(dto.getEndereco().getNumero()).orElseThrow(() -> new BadRequestException("campo endereco.numero é obrigatório"));
+        Optional.ofNullable(dto.getDhInicio()).orElseThrow(() -> new BadRequestException("Campo dhInicio é obrigatório"));
+        Optional.ofNullable(dto.getDhFim()).orElseThrow(() -> new BadRequestException("Campo dhFim é obrigatório"));
+        Optional.ofNullable(dto.getValorInicial()).orElseThrow(() -> new BadRequestException("Campo valorInicial é obrigatório"));
+        Optional.ofNullable(dto.getValorIncremental()).orElseThrow(() -> new BadRequestException("Campo valorIncremental é obrigatório"));
+        Optional.ofNullable(dto.getIdVendedor()).orElseThrow(() -> new BadRequestException("Campo idVendedor é obrigatório"));
+        Optional.ofNullable(dto.getIdVeiculo()).orElseThrow(() -> new BadRequestException("Campo idVeiculo é obrigatório"));
+        Optional.ofNullable(dto.getEndereco().getEstado()).orElseThrow(() -> new BadRequestException("Campo endereco.estado é obrigatório"));
+        Optional.ofNullable(dto.getEndereco().getCidade()).orElseThrow(() -> new BadRequestException("Campo endereco.cidade é obrigatório"));
+        Optional.ofNullable(dto.getEndereco().getCep()).orElseThrow(() -> new BadRequestException("Campo endereco.cep é obrigatório"));
+        Optional.ofNullable(dto.getEndereco().getBairro()).orElseThrow(() -> new BadRequestException("Campo endereco.bairro é obrigatório"));
+        Optional.ofNullable(dto.getEndereco().getRua()).orElseThrow(() -> new BadRequestException("Campo endereco.rua é obrigatório"));
+        Optional.ofNullable(dto.getEndereco().getNumero()).orElseThrow(() -> new BadRequestException("Campo endereco.numero é obrigatório"));
     }
 }

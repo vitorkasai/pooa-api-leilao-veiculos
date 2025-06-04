@@ -16,7 +16,7 @@ public class AppLoggerImpl implements AppLogger {
     }
 
     @Override
-    public void debug(String message, Object object) {
+    public void debug(String message, Object... object) {
         logger.debug(message, object);
     }
 
@@ -26,7 +26,7 @@ public class AppLoggerImpl implements AppLogger {
     }
 
     @Override
-    public void info(String message, Object object) {
+    public void info(String message, Object... object) {
         logger.info(message, object);
     }
 
@@ -36,7 +36,7 @@ public class AppLoggerImpl implements AppLogger {
     }
 
     @Override
-    public void warn(String message, Object object) {
+    public void warn(String message, Object... object) {
         logger.warn(message, object);
     }
 
@@ -46,7 +46,7 @@ public class AppLoggerImpl implements AppLogger {
     }
 
     @Override
-    public void error(String message, Object object) {
+    public void error(String message, Object... object) {
         logger.error(message, object);
     }
 }
