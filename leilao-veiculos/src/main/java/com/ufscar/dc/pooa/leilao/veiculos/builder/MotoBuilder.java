@@ -1,7 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.factory.VeiculoFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Partida;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Moto;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 public class MotoBuilder {
 
     public Veiculo build(VeiculoDTO dto) {
-        Moto moto = VeiculoFactory.criaMoto();
+        Moto moto = new Moto();
         moto.setModelo(dto.getModelo());
         moto.setDhCriacao(LocalDateTime.now());
         moto.setPlaca(dto.getPlaca());

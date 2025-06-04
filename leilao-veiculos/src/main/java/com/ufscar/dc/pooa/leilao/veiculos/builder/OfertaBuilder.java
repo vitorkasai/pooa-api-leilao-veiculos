@@ -1,7 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.factory.OfertaFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Endereco;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
@@ -13,7 +12,7 @@ import java.time.LocalDateTime;
 @Component
 public class OfertaBuilder {
     public Oferta build(OfertaDTO dto, Vendedor vendedor, Veiculo veiculo, Endereco endereco) {
-        Oferta oferta = OfertaFactory.criaOferta();
+        Oferta oferta = new Oferta();
         oferta.setDhInicio(dto.getDhInicio());
         oferta.setDhFim(dto.getDhFim());
         oferta.setDhCriacao(LocalDateTime.now());
