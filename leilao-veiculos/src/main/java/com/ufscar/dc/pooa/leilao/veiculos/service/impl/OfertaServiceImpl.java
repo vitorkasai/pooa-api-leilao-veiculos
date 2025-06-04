@@ -4,9 +4,11 @@ import com.ufscar.dc.pooa.leilao.veiculos.builder.EnderecoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.OfertaBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.OfertaRepository;
@@ -28,6 +30,12 @@ public class OfertaServiceImpl implements OfertaService {
     private final EnderecoBuilder enderecoBuilder;
     private final OfertaBuilder builder;
     private final OfertaRepository repository;
+
+    @Override
+    public Oferta findDomainById(Long id) {
+        log.debug("Buscando oferta: {}", id);
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar oferta de id: " + id));
+    }
 
     @Override
     public void create(OfertaDTO dto) {
