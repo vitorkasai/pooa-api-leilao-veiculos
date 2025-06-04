@@ -25,8 +25,8 @@ public class Notificacao {
     @Column(name = "CONTEUDO", nullable = false, length = 255)
     private String conteudo;
 
-    @Column(name = "IN_VISUALIZADO", nullable = false)
-    private boolean inVisualizado;
+    @Column(name = "IS_VISUALIZADO", nullable = false)
+    private boolean isVisualizado;
 
     @Column(name = "DH_CRIACAO", nullable = false)
     private LocalDateTime dhCriacao;
