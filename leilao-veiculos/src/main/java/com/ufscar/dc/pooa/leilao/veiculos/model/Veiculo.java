@@ -24,7 +24,7 @@ public abstract class Veiculo {
     @Id
     @Column(name = "ID_VEICULO", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @Column(name = "MODELO", nullable = false, length = 100)
     private String modelo;

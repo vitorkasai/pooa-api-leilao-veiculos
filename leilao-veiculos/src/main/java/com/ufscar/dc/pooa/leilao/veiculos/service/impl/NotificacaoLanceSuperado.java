@@ -1,27 +1,23 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
-import java.util.Objects;
+import org.springframework.stereotype.Service;
 
+import com.ufscar.dc.pooa.leilao.veiculos.builder.NotificacaoBuilder;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Lance;
+import com.ufscar.dc.pooa.leilao.veiculos.repository.NotificacaoRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
 
+import lombok.RequiredArgsConstructor;
+
+@Service("lanceSuperado")
+@RequiredArgsConstructor
 public class NotificacaoLanceSuperado implements NotificacaoService {
-	private static NotificacaoLanceSuperado notificacaoLanceSuperado;
-	
-	private NotificacaoLanceSuperado() {	
-	
-	}
-	
-	public static NotificacaoLanceSuperado getInstancia() {
-		if (Objects.isNull(notificacaoLanceSuperado)) {
-			return new NotificacaoLanceSuperado();
-		}
-		return notificacaoLanceSuperado;
-	}
+	private final NotificacaoRepository repository;
+	private final NotificacaoBuilder builder;
 	
 	@Override
-	public void createNotificacao() {
-		// TODO Auto-generated method stub
-		
+	public void createNotificacao(Lance lance) {
+		// to do
 	}
-
+	
 }

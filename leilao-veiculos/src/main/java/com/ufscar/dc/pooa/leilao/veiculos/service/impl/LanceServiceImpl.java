@@ -1,5 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LanceServiceImpl implements LanceService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
-    private NotificacaoService notificacaoService;
+    private final Map<String, NotificacaoService> estrategiasNotificacao;
     private final CompradorService compradorService;
     private final OfertaService ofertaService;
     private final LanceBuilder builder;
@@ -57,13 +58,11 @@ public class LanceServiceImpl implements LanceService {
             log.error("O valor deve ser maior que o valor inicial da oferta: " + oferta.getValorInicial());
             throw new BadRequestException("O valor deve ser maior que o valor inicial da oferta");
         }
-        repository.save(builder.build(dto, comprador, oferta));
-        setNotificacaoTipo(NotificacaoLanceRecebido.getInstancia());
-        notificacaoService.createNotificacao();
-    }
-
-    private void setNotificacaoTipo(NotificacaoService notificacaoTipo) {
-        this.notificacaoService = notificacaoTipo;
+        Lance lance = builder.build(dto, comprador, oferta);
+        repository.save(lance);
+        
+        NotificacaoService notificacaoService = estrategiasNotificacao.get("lanceRecebido");
+        notificacaoService.createNotificacao(lance);
     }
 
     private static void validate(LanceDTO dto) {
