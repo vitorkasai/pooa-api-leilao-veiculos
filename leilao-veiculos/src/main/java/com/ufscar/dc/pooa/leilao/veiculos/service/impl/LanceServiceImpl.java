@@ -1,5 +1,9 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
 import com.ufscar.dc.pooa.leilao.veiculos.builder.LanceBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.LanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
@@ -14,10 +18,8 @@ import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
