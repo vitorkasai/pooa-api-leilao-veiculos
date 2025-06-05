@@ -13,10 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString
 public class OfertaDTO {
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dhInicio;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dhFim;
 
     private Double valorInicial;
