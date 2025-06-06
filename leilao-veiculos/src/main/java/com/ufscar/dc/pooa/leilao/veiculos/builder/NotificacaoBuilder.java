@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.stereotype.Component;
 
+import com.ufscar.dc.pooa.leilao.veiculos.dto.NotificacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Notificacao;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Usuario;
 
@@ -16,5 +17,13 @@ public class NotificacaoBuilder {
 		notificacao.setUsuario(usuario);
 		notificacao.setDhCriacao(LocalDateTime.now());
 		return notificacao;
+	}
+	
+	public NotificacaoDTO build(Notificacao notificacao) {
+		NotificacaoDTO notificacaoDTO = new NotificacaoDTO();
+		notificacaoDTO.setId(notificacao.getId());
+		notificacaoDTO.setConteudo(notificacao.getConteudo());
+		notificacaoDTO.setVisualizado(notificacao.isVisualizado());
+		return notificacaoDTO;
 	}
 }

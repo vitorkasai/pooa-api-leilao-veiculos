@@ -1,8 +1,9 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service;
 
-import com.ufscar.dc.pooa.leilao.veiculos.model.Lance;
+import java.util.List;
+
+import com.ufscar.dc.pooa.leilao.veiculos.dto.NotificacaoDTO;
 
 public interface NotificacaoService {
-	public void createNotificacao(Lance lance);
-
+	public List<NotificacaoDTO> listAllByUserId(Long userId);
 }

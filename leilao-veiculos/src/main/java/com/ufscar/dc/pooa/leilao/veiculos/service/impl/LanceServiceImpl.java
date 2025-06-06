@@ -17,7 +17,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.LanceRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
-import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
+import com.ufscar.dc.pooa.leilao.veiculos.service.CreateNotificacaoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class LanceServiceImpl implements LanceService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
-    private final Map<String, NotificacaoService> estrategiasNotificacao;
+    private final Map<String, CreateNotificacaoService> estrategiasNotificacao;
     private final CompradorService compradorService;
     private final OfertaService ofertaService;
     private final LanceBuilder builder;
@@ -61,7 +61,7 @@ public class LanceServiceImpl implements LanceService {
         Lance lance = builder.build(dto, comprador, oferta);
         repository.save(lance);
         
-        NotificacaoService notificacaoService = estrategiasNotificacao.get("lanceRecebido");
+        CreateNotificacaoService notificacaoService = estrategiasNotificacao.get("lanceRecebido");
         notificacaoService.createNotificacao(lance);
     }
 
