@@ -26,4 +26,8 @@ public class NotificacaoBuilder {
 		notificacaoDTO.setVisualizado(notificacao.isVisualizado());
 		return notificacaoDTO;
 	}
+	
+	public void buildVisualizar(Notificacao notificacao) {
+		notificacao.setVisualizado(true);
+	}
 }

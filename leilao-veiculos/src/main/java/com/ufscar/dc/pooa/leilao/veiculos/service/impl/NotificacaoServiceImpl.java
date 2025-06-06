@@ -7,8 +7,10 @@ import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.NotificacaoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.NotificacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Notificacao;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.NotificacaoRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
 
@@ -27,5 +29,14 @@ public class NotificacaoServiceImpl implements NotificacaoService{
 		log.debug("Listando todas as notificações não visualizadas do usuário de ID: {}", userId);
 		List<NotificacaoDTO> notificacaoDTOList = repository.findAllByUserId(userId).stream().map(builder::build).collect(Collectors.toList());
 		return notificacaoDTOList;
+	}
+	
+	@Override
+	public void visualizar(Long notificacaoId) {
+		log.debug("Visualizando a notificação de ID: {}", notificacaoId);
+		Notificacao notificacaoFound = repository.findById(notificacaoId).orElseThrow(() -> new NotFoundException("Falha ao validar notificação"));
+		builder.buildVisualizar(notificacaoFound);
+		repository.save(notificacaoFound);
+		log.debug("Notificação de id {} visualizada com sucesso", notificacaoId);
 	}
 }

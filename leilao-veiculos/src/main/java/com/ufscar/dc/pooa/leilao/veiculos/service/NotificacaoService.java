@@ -6,4 +6,5 @@ import com.ufscar.dc.pooa.leilao.veiculos.dto.NotificacaoDTO;
 
 public interface NotificacaoService {
 	public List<NotificacaoDTO> listAllByUserId(Long userId);
+	public void visualizar(Long notificacaoId);
 }
