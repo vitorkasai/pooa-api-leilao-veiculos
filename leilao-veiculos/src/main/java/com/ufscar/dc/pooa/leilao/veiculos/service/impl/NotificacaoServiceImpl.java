@@ -18,21 +18,20 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-public class NotificacaoServiceImpl implements NotificacaoService{
+public class NotificacaoServiceImpl implements NotificacaoService {
 	private static final AppLogger log = AppLoggerFactory.getAppLogger(NotificacaoServiceImpl.class);
 
 	private final NotificacaoRepository repository;
 	private final NotificacaoBuilder builder;
 	
 	@Override
-	public List<NotificacaoDTO> listAllByUserId(Long userId) {
-		log.debug("Listando todas as notificações não visualizadas do usuário de ID: {}", userId);
-		List<NotificacaoDTO> notificacaoDTOList = repository.findAllByUserId(userId).stream().map(builder::build).collect(Collectors.toList());
-		return notificacaoDTOList;
+	public List<NotificacaoDTO> listAllByUserId(Long usuarioId) {
+		log.debug("Listando todas as notificações não visualizadas do usuário de ID: {}", usuarioId);
+		return repository.findAllByUserId(usuarioId).stream().map(builder::build).collect(Collectors.toList());
 	}
 	
 	@Override
-	public void visualizar(Long notificacaoId) {
+	public void view(Long notificacaoId) {
 		log.debug("Visualizando a notificação de ID: {}", notificacaoId);
 		Notificacao notificacaoFound = repository.findById(notificacaoId).orElseThrow(() -> new NotFoundException("Falha ao validar notificação"));
 		builder.buildVisualizar(notificacaoFound);

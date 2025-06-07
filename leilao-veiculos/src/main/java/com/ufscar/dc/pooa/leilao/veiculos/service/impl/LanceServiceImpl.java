@@ -1,10 +1,5 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
-import java.util.Map;
-import java.util.Optional;
-
-import org.springframework.stereotype.Service;
-
 import com.ufscar.dc.pooa.leilao.veiculos.builder.LanceBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.LanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
@@ -16,11 +11,16 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Lance;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.LanceRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
-import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CreateNotificacaoService;
+import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -33,12 +33,18 @@ public class LanceServiceImpl implements LanceService {
     private final LanceRepository repository;
 
     @Override
+    public List<LanceDTO> findAllByOfferId(Long id) {
+        log.debug("Listando todas os lances da oferta de ID: {}", id);
+        return repository.findAllByOfertaIdOrderByValorDesc(id).stream().map(builder::build).collect(Collectors.toList());
+    }
+
+    @Override
     public void create(LanceDTO dto) {
         log.debug("Criando novo lance: {}", dto);
         validate(dto);
 
-        Comprador comprador = compradorService.findDomainById(dto.getIdComprador());
-        Oferta oferta = ofertaService.findDomainById(dto.getIdOferta());
+        Comprador comprador = compradorService.findDomainById(dto.getCompradorId());
+        Oferta oferta = ofertaService.findDomainById(dto.getOfertaId());
 
         validateDadosOferta(dto, oferta);
         Optional<Lance> ultimoLanceOpt = repository.findFirstByOfertaIdOrderByDhCriacaoDesc(oferta.getId());
@@ -51,13 +57,13 @@ public class LanceServiceImpl implements LanceService {
         repository.save(lance);
         
         CreateNotificacaoService notificacaoService = estrategiasNotificacao.get("lanceRecebido");
-        notificacaoService.createNotificacao(lance);
+        notificacaoService.createNotification(lance);
     }
 
     private static void validate(LanceDTO dto) {
         Optional.ofNullable(dto.getValor()).orElseThrow(() -> new BadRequestException("Campo valor é obrigatório"));
-        Optional.ofNullable(dto.getIdComprador()).orElseThrow(() -> new BadRequestException("Campo idComprador é obrigatório"));
-        Optional.ofNullable(dto.getIdOferta()).orElseThrow(() -> new BadRequestException("Campo idOferta é obrigatório"));
+        Optional.ofNullable(dto.getCompradorId()).orElseThrow(() -> new BadRequestException("Campo compradorId é obrigatório"));
+        Optional.ofNullable(dto.getOfertaId()).orElseThrow(() -> new BadRequestException("Campo ofertaId é obrigatório"));
     }
 
     private static void validateDadosOferta(LanceDTO dto, Oferta oferta) {

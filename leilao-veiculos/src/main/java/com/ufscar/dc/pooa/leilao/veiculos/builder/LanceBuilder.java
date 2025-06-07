@@ -18,4 +18,12 @@ public class LanceBuilder {
         lance.setComprador(comprador);
         return lance;
     }
+    public LanceDTO build(Lance entity) {
+        LanceDTO lanceDTO = new LanceDTO();
+        lanceDTO.setValor(entity.getValor());
+        lanceDTO.setOfertaId(entity.getOferta().getId());
+        lanceDTO.setCompradorId(entity.getComprador().getId());
+        return lanceDTO;
+    }
+
 }

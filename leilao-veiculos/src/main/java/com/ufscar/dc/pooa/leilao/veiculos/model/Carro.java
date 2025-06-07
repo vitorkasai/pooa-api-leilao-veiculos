@@ -32,6 +32,4 @@ public class Carro extends Veiculo {
         this.direcao = direcao;
         this.cambio = cambio;
     }
-
-
 }

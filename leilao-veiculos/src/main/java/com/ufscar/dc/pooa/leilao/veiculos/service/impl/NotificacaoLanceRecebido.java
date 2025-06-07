@@ -16,7 +16,7 @@ public class NotificacaoLanceRecebido implements CreateNotificacaoService {
 	private final NotificacaoBuilder builder;
 
 	@Override
-	public void createNotificacao(Lance lance) {
+	public void createNotification(Lance lance) {
 		String conteudo = "Sua oferta recebeu um novo lance no valor de: " + lance.getValor() + " R$";
 		repository.save(builder.build(conteudo, lance.getOferta().getVendedor()));
 	}

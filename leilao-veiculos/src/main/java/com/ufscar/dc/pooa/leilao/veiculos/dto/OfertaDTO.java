@@ -21,8 +21,8 @@ public class OfertaDTO {
 
     private Double valorInicial;
     private Double valorIncremental;
-    private Long idVendedor;
-    private Long idVeiculo;
+    private Long vendedorId;
+    private Long veiculoId;
     private EnderecoDTO endereco;
 
     @JsonIgnore

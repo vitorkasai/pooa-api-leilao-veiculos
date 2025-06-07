@@ -7,10 +7,9 @@ import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
@@ -19,8 +18,14 @@ public class LanceController {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(LanceController.class);
     private final LanceService service;
 
+    @GetMapping("/oferta/{ofertaId}")
+    public ResponseEntity<List<LanceDTO>> listAllByOfferId(@PathVariable Long ofertaId) {
+        log.info("Listando todos os lances com oferta de ID: {}", ofertaId);
+        return new ResponseEntity<>(service.findAllByOfferId(ofertaId), HttpStatus.OK);
+    }
+
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody LanceDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody LanceDTO dto) {
         log.info("Criando novo lance: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

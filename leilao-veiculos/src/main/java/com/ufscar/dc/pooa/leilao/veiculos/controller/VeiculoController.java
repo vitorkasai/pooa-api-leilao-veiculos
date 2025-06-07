@@ -1,6 +1,5 @@
 package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
-
 import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
@@ -22,7 +21,7 @@ public class VeiculoController {
     private final VeiculoService service;
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody VeiculoDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody VeiculoDTO dto) {
         log.info("Criando novo veiculo: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

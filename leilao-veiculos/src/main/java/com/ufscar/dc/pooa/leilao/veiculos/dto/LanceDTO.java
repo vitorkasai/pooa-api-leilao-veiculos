@@ -9,6 +9,6 @@ import lombok.ToString;
 @ToString
 public class LanceDTO {
     private Double valor;
-    private Long idOferta;
-    private Long idComprador;
+    private Long ofertaId;
+    private Long compradorId;
 }

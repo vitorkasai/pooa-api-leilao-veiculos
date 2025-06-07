@@ -20,7 +20,7 @@ public class CompradorController {
     private final CompradorService service;
 
     @PostMapping
-    public ResponseEntity<String> create(@RequestBody CompradorDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody CompradorDTO dto) {
         log.info("Criando novo comprador: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
