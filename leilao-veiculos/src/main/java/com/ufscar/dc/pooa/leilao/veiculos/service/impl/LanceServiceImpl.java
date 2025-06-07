@@ -36,28 +36,17 @@ public class LanceServiceImpl implements LanceService {
     public void create(LanceDTO dto) {
         log.debug("Criando novo lance: {}", dto);
         validate(dto);
+
         Comprador comprador = compradorService.findDomainById(dto.getIdComprador());
         Oferta oferta = ofertaService.findDomainById(dto.getIdOferta());
-        if (oferta.getEstado() != Estado.EM_ANDAMENTO) {
-            log.error("Falha ao validar oferta com estado {} ao realizar lance", oferta.getEstado());
-            throw new BadRequestException("Falha ao validar oferta ao realizar lance");
-        }
+
+        validateDadosOferta(dto, oferta);
         Optional<Lance> ultimoLanceOpt = repository.findFirstByOfertaIdOrderByDhCriacaoDesc(oferta.getId());
         if (ultimoLanceOpt.isPresent()) {
             Double valorUltimoLance = ultimoLanceOpt.get().getValor();
-            if (valorUltimoLance > dto.getValor()) {
-                log.error("O valor deve ser maior que o valor do último lance feito: " + oferta.getEstado());
-                throw new BadRequestException("O valor deve ser maior que o valor do último lance feito");
-            }
-            if ((dto.getValor() - valorUltimoLance) < oferta.getValorIncremental()) {
-                log.error("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental: " + oferta.getValorIncremental());
-                throw new BadRequestException("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental");
-            }
+            validateUltimoLance(dto, valorUltimoLance, oferta);
         }
-        if (dto.getValor() < oferta.getValorInicial()) {
-            log.error("O valor deve ser maior que o valor inicial da oferta: " + oferta.getValorInicial());
-            throw new BadRequestException("O valor deve ser maior que o valor inicial da oferta");
-        }
+
         Lance lance = builder.build(dto, comprador, oferta);
         repository.save(lance);
         
@@ -69,5 +58,27 @@ public class LanceServiceImpl implements LanceService {
         Optional.ofNullable(dto.getValor()).orElseThrow(() -> new BadRequestException("Campo valor é obrigatório"));
         Optional.ofNullable(dto.getIdComprador()).orElseThrow(() -> new BadRequestException("Campo idComprador é obrigatório"));
         Optional.ofNullable(dto.getIdOferta()).orElseThrow(() -> new BadRequestException("Campo idOferta é obrigatório"));
+    }
+
+    private static void validateDadosOferta(LanceDTO dto, Oferta oferta) {
+        if (oferta.getEstado() != Estado.EM_ANDAMENTO) {
+            log.error("Falha ao validar oferta com estado {} ao realizar lance", oferta.getEstado());
+            throw new BadRequestException("Falha ao validar oferta ao realizar lance");
+        }
+        if (dto.getValor() < oferta.getValorInicial()) {
+            log.error("O valor deve ser maior que o valor inicial da oferta: " + oferta.getValorInicial());
+            throw new BadRequestException("O valor deve ser maior que o valor inicial da oferta");
+        }
+    }
+
+    private static void validateUltimoLance(LanceDTO dto, Double valorUltimoLance, Oferta oferta) {
+        if (valorUltimoLance > dto.getValor()) {
+            log.error("O valor deve ser maior que o valor do último lance feito: " + oferta.getEstado());
+            throw new BadRequestException("O valor deve ser maior que o valor do último lance feito");
+        }
+        if ((dto.getValor() - valorUltimoLance) < oferta.getValorIncremental()) {
+            log.error("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental: " + oferta.getValorIncremental());
+            throw new BadRequestException("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental");
+        }
     }
 }

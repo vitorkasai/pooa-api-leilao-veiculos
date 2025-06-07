@@ -41,17 +41,11 @@ public class OfertaServiceImpl implements OfertaService {
     public void create(OfertaDTO dto) {
         log.debug("Criando nova oferta: {}", dto);
         validate(dto);
+
         Vendedor vendedor = vendedorService.findDomainById(dto.getIdVendedor());
         Veiculo veiculo = veiculoService.findDomainById(dto.getIdVeiculo());
-        LocalDateTime now = LocalDateTime.now();
-        if (dto.getDhInicio().isBefore(now)) {
-            log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);
-            throw new BadRequestException("O dhInicio deve ser mais velha que data atual");
-        }
-        if (dto.getDhInicio().isAfter(dto.getDhFim())) {
-            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dto.getDhFim(), dto.getDhInicio());
-            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
-        }
+        validateDatas(dto);
+
         dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
     }
@@ -69,5 +63,17 @@ public class OfertaServiceImpl implements OfertaService {
         Optional.ofNullable(dto.getEndereco().getBairro()).orElseThrow(() -> new BadRequestException("Campo endereco.bairro é obrigatório"));
         Optional.ofNullable(dto.getEndereco().getRua()).orElseThrow(() -> new BadRequestException("Campo endereco.rua é obrigatório"));
         Optional.ofNullable(dto.getEndereco().getNumero()).orElseThrow(() -> new BadRequestException("Campo endereco.numero é obrigatório"));
+    }
+
+    private static void validateDatas(OfertaDTO dto) {
+        LocalDateTime now = LocalDateTime.now();
+        if (dto.getDhInicio().isBefore(now)) {
+            log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);
+            throw new BadRequestException("O dhInicio deve ser mais velha que data atual");
+        }
+        if (dto.getDhInicio().isAfter(dto.getDhFim())) {
+            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dto.getDhFim(), dto.getDhInicio());
+            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
+        }
     }
 }
