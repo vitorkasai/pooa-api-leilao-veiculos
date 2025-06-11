@@ -14,7 +14,7 @@ public class NotificacaoLanceSuperado implements CreateNotificacaoService {
 	private final NotificacaoBuilder builder;
 	
 	@Override
-	public void createNotification(Lance lance) {
+	public void createNotificacao(Lance lance) {
 		// TODO Auto-generated method stub
 	}
 }

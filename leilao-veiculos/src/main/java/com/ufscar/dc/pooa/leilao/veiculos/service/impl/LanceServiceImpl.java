@@ -34,7 +34,7 @@ public class LanceServiceImpl implements LanceService {
     private final LanceRepository repository;
 
     @Override
-    public List<ReturnLanceDTO> findAllByOfferId(Long id) {
+    public List<ReturnLanceDTO> findAllByOfertaId(Long id) {
         log.debug("Listando todas os lances da oferta de ID: {}", id);
         return repository.findAllByOfertaIdOrderByValorDesc(id).stream().map(builder::build).collect(Collectors.toList());
     }
@@ -55,7 +55,7 @@ public class LanceServiceImpl implements LanceService {
         repository.save(lance);
         
         CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceRecebido");
-        notificacaoService.createNotification(lance);
+        notificacaoService.createNotificacao(lance);
     }
 
     private static void validate(CreateLanceDTO dto) {

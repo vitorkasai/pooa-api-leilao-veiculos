@@ -10,7 +10,6 @@ import java.time.LocalDateTime;
 
 @Component
 public class MotoBuilder {
-
     public Veiculo build(CreateVeiculoDTO dto) {
         Moto moto = new Moto();
         moto.setModelo(dto.getModelo());

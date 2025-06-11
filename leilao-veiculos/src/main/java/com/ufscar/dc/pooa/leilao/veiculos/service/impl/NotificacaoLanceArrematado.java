@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class NotificacaoLanceArrematado implements CreateNotificacaoService {
 	@Override
-	public void createNotification(Lance lance) {
+	public void createNotificacao(Lance lance) {
 		// TODO Auto-generated method stub
 	}
 }

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 @Component
 public class CarroBuilder {
-
     public Veiculo build(CreateVeiculoDTO dto) {
         Carro carro = new Carro();
         carro.setModelo(dto.getModelo());
