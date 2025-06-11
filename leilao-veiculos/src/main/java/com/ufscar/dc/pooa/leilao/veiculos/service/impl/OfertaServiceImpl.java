@@ -2,7 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.EnderecoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.OfertaBuilder;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateOfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
@@ -19,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -39,7 +40,7 @@ public class OfertaServiceImpl implements OfertaService {
     }
 
     @Override
-    public void create(OfertaDTO dto) {
+    public void create(CreateOfertaDTO dto) {
         log.debug("Criando nova oferta: {}", dto);
         validate(dto);
 
@@ -80,7 +81,7 @@ public class OfertaServiceImpl implements OfertaService {
         return repository.save(oferta);
     }
 
-    private static void validate(OfertaDTO dto) {
+    private static void validate(CreateOfertaDTO dto) {
         Optional.ofNullable(dto.getDhInicio()).orElseThrow(() -> new BadRequestException("Campo dhInicio é obrigatório"));
         Optional.ofNullable(dto.getDhFim()).orElseThrow(() -> new BadRequestException("Campo dhFim é obrigatório"));
         Optional.ofNullable(dto.getValorInicial()).orElseThrow(() -> new BadRequestException("Campo valorInicial é obrigatório"));
@@ -95,7 +96,7 @@ public class OfertaServiceImpl implements OfertaService {
         Optional.ofNullable(dto.getEndereco().getNumero()).orElseThrow(() -> new BadRequestException("Campo endereco.numero é obrigatório"));
     }
 
-    private static void validateDatas(OfertaDTO dto) {
+    private static void validateDatas(CreateOfertaDTO dto) {
         LocalDateTime now = LocalDateTime.now();
         if (dto.getDhInicio().isBefore(now)) {
             log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);

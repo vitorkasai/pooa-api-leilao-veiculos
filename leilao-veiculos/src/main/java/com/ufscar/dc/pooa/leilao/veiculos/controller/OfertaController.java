@@ -1,6 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.OfertaDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateOfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
@@ -20,7 +20,7 @@ public class OfertaController {
     private final OfertaService service;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody OfertaDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody CreateOfertaDTO dto) {
         log.info("Criando nova oferta: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

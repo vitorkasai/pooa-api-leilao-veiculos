@@ -2,7 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.CarroBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.MotoBuilder;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVeiculoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
@@ -31,7 +31,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     }
 
     @Override
-    public void create(VeiculoDTO dto) {
+    public void create(CreateVeiculoDTO dto) {
         log.debug("Criando novo veículo: {}", dto);
         validate(dto);
 
@@ -47,7 +47,7 @@ public class VeiculoServiceImpl implements VeiculoService {
         repository.save(veiculo);
     }
 
-    private static void validate(VeiculoDTO dto) {
+    private static void validate(CreateVeiculoDTO dto) {
         Optional.ofNullable(dto.getModelo()).orElseThrow(() -> new BadRequestException("Campo modelo é obrigatório"));
         Optional.ofNullable(dto.getPlaca()).orElseThrow(() -> new BadRequestException("Campo placa é obrigatório"));
         Optional.ofNullable(dto.getCor()).orElseThrow(() -> new BadRequestException("Campo cor é obrigatório"));

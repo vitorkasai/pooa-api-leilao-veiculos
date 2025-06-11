@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VendedorDTO extends UsuarioDTO {
+public class CreateVendedorDTO extends CreateUsuarioDTO {
 	private String nomeFantasia;
 	private String contaBancaria;
 }

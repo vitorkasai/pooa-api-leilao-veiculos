@@ -1,6 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CompradorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateCompradorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
@@ -20,7 +20,7 @@ public class CompradorController {
     private final CompradorService service;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody CompradorDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody CreateCompradorDTO dto) {
         log.info("Criando novo comprador: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.NotificacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnNotificacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.NotificacaoService;
@@ -21,7 +21,7 @@ public class NotificacaoController {
 	private final NotificacaoService service;
 	
 	@GetMapping("/usuario/{usuarioId}")
-	public ResponseEntity<List<NotificacaoDTO>> listAllByUserId(@PathVariable Long usuarioId) {
+	public ResponseEntity<List<ReturnNotificacaoDTO>> listAllByUserId(@PathVariable Long usuarioId) {
 		log.info("Listando todas as notificações para o usuário de ID: {}", usuarioId);
 		return new ResponseEntity<>(service.listAllByUserId(usuarioId), HttpStatus.OK);
 	}

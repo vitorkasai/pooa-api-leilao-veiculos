@@ -1,6 +1,7 @@
 package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.LanceDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateLanceDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnLanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
@@ -19,13 +20,13 @@ public class LanceController {
     private final LanceService service;
 
     @GetMapping("/oferta/{ofertaId}")
-    public ResponseEntity<List<LanceDTO>> listAllByOfferId(@PathVariable Long ofertaId) {
+    public ResponseEntity<List<ReturnLanceDTO>> listAllByOfferId(@PathVariable Long ofertaId) {
         log.info("Listando todos os lances com oferta de ID: {}", ofertaId);
         return new ResponseEntity<>(service.findAllByOfferId(ofertaId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody LanceDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody CreateLanceDTO dto) {
         log.info("Criando novo lance: {}", dto);
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

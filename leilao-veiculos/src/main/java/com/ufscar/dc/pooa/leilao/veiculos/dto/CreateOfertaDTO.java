@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class OfertaDTO {
+public class CreateOfertaDTO {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime dhInicio;
 
@@ -23,7 +23,7 @@ public class OfertaDTO {
     private Double valorIncremental;
     private Long vendedorId;
     private Long veiculoId;
-    private EnderecoDTO endereco;
+    private CreateEnderecoDTO endereco;
 
     @JsonIgnore
     private Estado estado;

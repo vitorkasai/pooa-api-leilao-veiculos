@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class VeiculoDTO {
+public class CreateVeiculoDTO {
     private String tipoVeiculo;
     private String modelo;
     private String placa;

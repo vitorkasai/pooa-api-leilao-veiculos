@@ -1,7 +1,7 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.CompradorBuilder;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CompradorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateCompradorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
@@ -28,13 +28,13 @@ public class CompradorServiceImpl implements CompradorService {
     }
 
     @Override
-    public void create(CompradorDTO dto) {
+    public void create(CreateCompradorDTO dto) {
         log.debug("Criando novo comprador: {}", dto);
         validate(dto);
         repository.save(builder.build(dto));
     }
 
-    private static void validate(CompradorDTO dto) {
+    private static void validate(CreateCompradorDTO dto) {
         Optional.ofNullable(dto.getNome()).orElseThrow(() -> new BadRequestException("Campo nome é obrigatório"));
         Optional.ofNullable(dto.getSobrenome()).orElseThrow(() -> new BadRequestException("Campo sobrenome é obrigatório"));
         Optional.ofNullable(dto.getEmail()).orElseThrow(() -> new BadRequestException("Campo email é obrigatório"));

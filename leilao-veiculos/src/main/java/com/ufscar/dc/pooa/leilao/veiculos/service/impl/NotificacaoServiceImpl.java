@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.NotificacaoBuilder;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.NotificacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnNotificacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
@@ -25,7 +25,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	private final NotificacaoBuilder builder;
 	
 	@Override
-	public List<NotificacaoDTO> listAllByUserId(Long usuarioId) {
+	public List<ReturnNotificacaoDTO> listAllByUserId(Long usuarioId) {
 		log.debug("Listando todas as notificações não visualizadas do usuário de ID: {}", usuarioId);
 		return repository.findAllByUserId(usuarioId).stream().map(builder::build).collect(Collectors.toList());
 	}

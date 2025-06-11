@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NotificacaoDTO {
+public class ReturnNotificacaoDTO {
 	private Long id;
 	private String conteudo;
 	private boolean isVisualizado;

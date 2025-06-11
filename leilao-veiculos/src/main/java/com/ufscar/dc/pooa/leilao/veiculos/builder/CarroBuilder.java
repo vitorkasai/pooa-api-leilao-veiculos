@@ -1,6 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.VeiculoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVeiculoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Cambio;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Direcao;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Carro;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Component
 public class CarroBuilder {
 
-    public Veiculo build(VeiculoDTO dto) {
+    public Veiculo build(CreateVeiculoDTO dto) {
         Carro carro = new Carro();
         carro.setModelo(dto.getModelo());
         carro.setDhCriacao(LocalDateTime.now());

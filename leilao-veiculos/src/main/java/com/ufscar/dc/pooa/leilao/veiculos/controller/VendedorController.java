@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.VendedorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVendedorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VendedorService;
@@ -22,7 +22,7 @@ public class VendedorController {
 	private final VendedorService service;
 	
 	@PostMapping
-	public ResponseEntity<Void> create(@RequestBody VendedorDTO dto) {
+	public ResponseEntity<Void> create(@RequestBody CreateVendedorDTO dto) {
 		log.info("Criando novo vendedor: {}", dto);
 		service.create(dto);
 		return new ResponseEntity<>(HttpStatus.CREATED);

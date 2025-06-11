@@ -1,6 +1,7 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.LanceDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateLanceDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnLanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Comprador;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Lance;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
 
 @Component
 public class LanceBuilder {
-    public Lance build(LanceDTO dto, Comprador comprador, Oferta oferta) {
+    public Lance build(CreateLanceDTO dto, Comprador comprador, Oferta oferta) {
         Lance lance = new Lance();
         lance.setValor(dto.getValor());
         lance.setDhCriacao(LocalDateTime.now());
@@ -18,12 +19,13 @@ public class LanceBuilder {
         lance.setComprador(comprador);
         return lance;
     }
-    public LanceDTO build(Lance entity) {
-        LanceDTO lanceDTO = new LanceDTO();
+
+    public ReturnLanceDTO build(Lance entity) {
+        ReturnLanceDTO lanceDTO = new ReturnLanceDTO();
+        lanceDTO.setId(entity.getId());
         lanceDTO.setValor(entity.getValor());
-        lanceDTO.setOfertaId(entity.getOferta().getId());
         lanceDTO.setCompradorId(entity.getComprador().getId());
+        lanceDTO.setData(entity.getDhCriacao());
         return lanceDTO;
     }
-
 }

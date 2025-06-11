@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class LanceDTO {
+public class CreateLanceDTO {
     private Double valor;
     private Long ofertaId;
     private Long compradorId;

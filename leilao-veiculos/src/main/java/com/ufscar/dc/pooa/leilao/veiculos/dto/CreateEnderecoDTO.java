@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class EnderecoDTO {
+public class CreateEnderecoDTO {
     private String estado;
     private String cidade;
     private String cep;

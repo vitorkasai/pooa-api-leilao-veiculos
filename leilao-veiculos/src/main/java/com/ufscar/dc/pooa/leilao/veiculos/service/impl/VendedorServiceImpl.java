@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.VendedorBuilder;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.VendedorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVendedorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
@@ -30,13 +30,13 @@ public class VendedorServiceImpl implements VendedorService {
     }
     
     @Override
-    public void create(VendedorDTO dto) {
+    public void create(CreateVendedorDTO dto) {
     	log.debug("Criando novo vendedor: {}", dto);
     	validate(dto);
     	repository.save(builder.build(dto));
     }
     
-    private static void validate(VendedorDTO dto) {
+    private static void validate(CreateVendedorDTO dto) {
         Optional.ofNullable(dto.getNome()).orElseThrow(() -> new BadRequestException("Campo nome é obrigatório"));
         Optional.ofNullable(dto.getSobrenome()).orElseThrow(() -> new BadRequestException("Campo sobrenome é obrigatório"));
         Optional.ofNullable(dto.getEmail()).orElseThrow(() -> new BadRequestException("Campo email é obrigatório"));
