@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 public class ReturnLanceDTO {
     private Long id;
     private Double valor;
+    private Long ofertaId;
     private Long compradorId;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")

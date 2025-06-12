@@ -9,4 +9,5 @@ import java.util.Optional;
 public interface LanceRepository extends JpaRepository<Lance, Long> {
     Optional<Lance> findFirstByOfertaIdOrderByDhCriacaoDesc(Long ofertaId);
     List<Lance> findAllByOfertaIdOrderByValorDesc(Long ofertaId);
+    List<Lance> findAllByCompradorIdOrderByValorDesc(Long compradorId);
 }

@@ -40,6 +40,12 @@ public class LanceServiceImpl implements LanceService {
     }
 
     @Override
+    public List<ReturnLanceDTO> findAllByCompradorId(Long id) {
+        log.debug("Listando todas os lances do comprador de ID: {}", id);
+        return repository.findAllByCompradorIdOrderByValorDesc(id).stream().map(builder::build).collect(Collectors.toList());
+    }
+
+    @Override
     public void create(CreateLanceDTO dto) {
         log.debug("Criando novo lance: {}", dto);
         validate(dto);

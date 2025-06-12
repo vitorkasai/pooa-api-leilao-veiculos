@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface LanceService {
     List<ReturnLanceDTO> findAllByOfertaId(Long id);
+    List<ReturnLanceDTO> findAllByCompradorId(Long id);
     void create(CreateLanceDTO dto);
 }
