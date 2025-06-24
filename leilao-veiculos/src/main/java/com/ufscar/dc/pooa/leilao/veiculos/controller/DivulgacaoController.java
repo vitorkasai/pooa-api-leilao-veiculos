@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.DivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.DivulgacaoService;
@@ -22,7 +22,7 @@ public class DivulgacaoController {
     private final DivulgacaoService service;
 
     @PostMapping
-    public ResponseEntity<Void> create(@RequestBody DivulgacaoDTO dto) {
+    public ResponseEntity<Void> create(@RequestBody CreateDivulgacaoDTO dto) {
         log.info("Criando novo link de divulgação: {}", dto.getNome());
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);

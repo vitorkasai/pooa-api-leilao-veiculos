@@ -1,7 +1,7 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.DivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 
 public interface DivulgacaoService {
-	void create(DivulgacaoDTO dto);
+	void create(CreateDivulgacaoDTO dto);
 }

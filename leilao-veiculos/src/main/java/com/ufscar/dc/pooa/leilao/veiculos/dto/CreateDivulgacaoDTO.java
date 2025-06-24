@@ -7,7 +7,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class DivulgacaoDTO {
+public class CreateDivulgacaoDTO {
     private String nome;
     private String link;
 }

@@ -5,12 +5,12 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.DivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Divulgacao;
 
 @Component
 public class DivulgacaoBuilder {
-	public Divulgacao build(DivulgacaoDTO dto) {
+	public Divulgacao build(CreateDivulgacaoDTO dto) {
 		Divulgacao divulgacao = new Divulgacao();
 		divulgacao.setUid(UUID.randomUUID().toString());
 		divulgacao.setNome(dto.getNome());

@@ -5,7 +5,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.DivulgacaoBuilder;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.DivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaFramework;
@@ -23,14 +23,14 @@ public class DivulgacaoServiceImpl implements DivulgacaoService {
 	private PersistenciaFramework framework = new PersistenciaFramework();
 	
 	@Override
-	public void create(DivulgacaoDTO dto) {
+	public void create(CreateDivulgacaoDTO dto) {
 		log.debug("Criando novo link de divulgação: {}", dto);
 		validate(dto);
 		Divulgacao divulgacao = builder.build(dto);
 		framework.save(divulgacao);
 	}
 	
-	private static void validate(DivulgacaoDTO dto) {
+	private static void validate(CreateDivulgacaoDTO dto) {
 		Optional.ofNullable(dto.getNome()).orElseThrow(() -> new BadRequestException("Campo nome é obrigatório"));
 		Optional.ofNullable(dto.getLink()).orElseThrow(() -> new BadRequestException("Campo link é obrigatório"));
 	}
