@@ -4,9 +4,11 @@ import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 
 import java.lang.reflect.Field;
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class PersistenciaFramework {
@@ -37,6 +39,7 @@ public class PersistenciaFramework {
 				statement.setObject(i + 1, valor);
 			}
 			statement.executeUpdate();
+
 			statement.close();
 			connection.close();
 		} catch (Exception e) {
@@ -55,6 +58,7 @@ public class PersistenciaFramework {
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setObject(1, valor);
 			statement.executeUpdate();
+
 			statement.close();
 			connection.close();
 		} catch (Exception e) {
@@ -89,6 +93,48 @@ public class PersistenciaFramework {
 		}
 
 		return resultados;
+	}
+
+	public Optional<Object> findOneBy(Class<?> clazz, String campoChave, Object valor) {
+		String tableName = getTableName(clazz);
+		String columnName = getColumnName(clazz, campoChave);
+
+		String sql = "SELECT * FROM " + tableName + " WHERE " + columnName + " = ? LIMIT 1";
+
+		try {
+			Connection connection = conectar();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			statement.setObject(1, valor);
+
+			ResultSet rs = statement.executeQuery();
+			Optional<Object> resultado = Optional.empty();
+			if (rs.next()) {
+				Object instancia = clazz.getDeclaredConstructor().newInstance();
+
+				for (Field campo : clazz.getDeclaredFields()) {
+					if (campo.isAnnotationPresent(PersistenciaCampo.class)) {
+						PersistenciaCampo anotacaoCampo = campo.getAnnotation(PersistenciaCampo.class);
+						campo.setAccessible(true);
+
+						Object valorColuna = rs.getObject(anotacaoCampo.nome());
+						if (campo.getType().equals(LocalDateTime.class) && valorColuna instanceof Timestamp) {
+							campo.set(instancia, ((Timestamp) valorColuna).toLocalDateTime());
+						} else {
+							campo.set(instancia, valorColuna);
+						}
+					}
+				}
+
+				resultado = Optional.of(instancia);
+			}
+
+			statement.close();
+			connection.close();
+
+			return resultado;
+		} catch (Exception e) {
+			throw new BadRequestException("Falha ao encontrar entidade com framework de persistência");
+		}
 	}
 
 	public boolean doesExist(Class<?> clazz, String campoChave, Object valor) {

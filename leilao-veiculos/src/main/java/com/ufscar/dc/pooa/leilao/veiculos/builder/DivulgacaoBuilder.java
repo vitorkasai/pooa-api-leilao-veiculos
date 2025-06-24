@@ -1,12 +1,12 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnDivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Divulgacao;
 import org.springframework.stereotype.Component;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.model.Divulgacao;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Component
 public class DivulgacaoBuilder {
@@ -17,5 +17,13 @@ public class DivulgacaoBuilder {
 		divulgacao.setLink(dto.getLink());
 		divulgacao.setDhCriacao(LocalDateTime.now());
 		return divulgacao;
+	}
+
+	public ReturnDivulgacaoDTO build(Divulgacao divulgacao) {
+		ReturnDivulgacaoDTO divulgacaoDTO = new ReturnDivulgacaoDTO();
+		divulgacaoDTO.setUid(divulgacao.getUid());
+		divulgacaoDTO.setNome(divulgacao.getNome());
+		divulgacaoDTO.setLink(divulgacao.getLink());
+		return divulgacaoDTO;
 	}
 }

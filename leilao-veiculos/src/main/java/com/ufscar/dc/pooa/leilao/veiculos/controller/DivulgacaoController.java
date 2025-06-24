@@ -1,5 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnDivulgacaoDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +20,12 @@ import java.util.UUID;
 public class DivulgacaoController {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(DivulgacaoController.class);
     private final DivulgacaoService service;
+
+    @GetMapping("/{uid}")
+    public ResponseEntity<ReturnDivulgacaoDTO> findByUid(@PathVariable UUID uid) {
+        log.info("Buscando divulgação: {}", uid);
+        return new ResponseEntity<>(service.findByUid(uid), HttpStatus.OK);
+    }
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateDivulgacaoDTO dto) {
