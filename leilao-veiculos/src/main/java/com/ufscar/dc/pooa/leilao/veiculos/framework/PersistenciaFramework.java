@@ -33,15 +33,15 @@ public class PersistenciaFramework {
 		
 		try {
 			Connection connection = conectar();
-			PreparedStatement stmt = connection.prepareStatement(sql);
+			PreparedStatement statement = connection.prepareStatement(sql);
 			for (int i = 0; i < camposAnotados.size(); i++) {
 				Field campo = camposAnotados.get(i);
 				campo.setAccessible(true);
 				Object valor = campo.get(entidade);
-				stmt.setObject(i + 1, valor);
+				statement.setObject(i + 1, valor);
 			}
-			stmt.executeUpdate();
-			stmt.close();
+			statement.executeUpdate();
+			statement.close();
 			connection.close();
 		} catch (Exception e) {
 			throw new BadRequestException("Falha ao salvar com framework de persistência");
@@ -54,9 +54,9 @@ public class PersistenciaFramework {
 
 		String sql = "SELECT * FROM " + tableName;
 
-		try (Connection conn = conectar();
-				PreparedStatement stmt = conn.prepareStatement(sql);
-				ResultSet rs = stmt.executeQuery()) {
+		try (Connection connection = conectar();
+				PreparedStatement statement = connection.prepareStatement(sql);
+				ResultSet rs = statement.executeQuery()) {
 
 			while (rs.next()) {
 				Object instancia = clazz.getDeclaredConstructor().newInstance();
@@ -80,11 +80,11 @@ public class PersistenciaFramework {
 		String tableName = getTableName(clazz);
 		String sql = "SELECT COUNT(*) FROM " + tableName + " WHERE " + campoChave + " = ?";
 
-		try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+		try (Connection connection = conectar(); PreparedStatement statement = connection.prepareStatement(sql)) {
 
-			stmt.setObject(1, valor);
+			statement.setObject(1, valor);
 
-			try (ResultSet rs = stmt.executeQuery()) {
+			try (ResultSet rs = statement.executeQuery()) {
 				if (rs.next()) {
 					return rs.getInt(1) > 0;
 				}
@@ -100,7 +100,9 @@ public class PersistenciaFramework {
 		}
 
 		PersistenciaTabela anotacao = clazz.getAnnotation(PersistenciaTabela.class);
-		return anotacao.schema().isEmpty() ? anotacao.nome() : anotacao.schema() + "." + anotacao.nome();
+		return anotacao.schema().isEmpty() 
+				? anotacao.nome()
+				: anotacao.schema() + "." + anotacao.nome();
 	}
 
 	private Connection conectar() throws SQLException {
