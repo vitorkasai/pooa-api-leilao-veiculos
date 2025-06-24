@@ -14,7 +14,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-@PersistenciaTabela(nome = "LEILAO_VEICULOS.TB_DIVULGACAO")
+@PersistenciaTabela(schema = "LEILAO_VEICULOS", nome = "TB_DIVULGACAO")
 public class Divulgacao {
 	@PersistenciaCampo(nome = "UID_DIVULGACAO")
 	private String uid;
