@@ -2,10 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
@@ -13,6 +10,8 @@ import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.DivulgacaoService;
 
 import lombok.RequiredArgsConstructor;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -26,5 +25,12 @@ public class DivulgacaoController {
         log.info("Criando novo link de divulgação: {}", dto.getNome());
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{uid}")
+    public ResponseEntity<Void> delete(@PathVariable UUID uid) {
+        log.info("Deletando divulgação: {}", uid);
+        service.delete(uid);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

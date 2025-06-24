@@ -12,7 +12,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Divulgacao;
 public class DivulgacaoBuilder {
 	public Divulgacao build(CreateDivulgacaoDTO dto) {
 		Divulgacao divulgacao = new Divulgacao();
-		divulgacao.setUid(UUID.randomUUID().toString());
+		divulgacao.setUid(UUID.randomUUID());
 		divulgacao.setNome(dto.getNome());
 		divulgacao.setLink(dto.getLink());
 		divulgacao.setDhCriacao(LocalDateTime.now());

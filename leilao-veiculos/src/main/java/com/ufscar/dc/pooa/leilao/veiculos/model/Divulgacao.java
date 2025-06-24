@@ -1,6 +1,7 @@
 package com.ufscar.dc.pooa.leilao.veiculos.model;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaCampo;
 import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaTabela;
@@ -17,7 +18,7 @@ import lombok.Setter;
 @PersistenciaTabela(nome = "LEILAO_VEICULOS.TB_DIVULGACAO")
 public class Divulgacao {
 	@PersistenciaCampo(nome = "UID_DIVULGACAO")
-	private String uid;
+	private UUID uid;
 	
 	@PersistenciaCampo(nome = "TX_NOME")
 	private String nome;
