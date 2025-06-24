@@ -15,10 +15,9 @@ import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 
 public class PersistenciaFramework {
 	public void save(Object entidade) {
-		Class<?> clazz = entidade.getClass();
-		String nomeTabela = getTableName(clazz);
+		String tableName = getTableName(entidade.getClass());
 
-		List<Field> camposAnotados = Arrays.stream(clazz.getDeclaredFields())
+		List<Field> camposAnotados = Arrays.stream(entidade.getClass().getDeclaredFields())
 				.filter(f -> f.isAnnotationPresent(PersistenciaCampo.class))
 				.toList();
 
@@ -30,7 +29,7 @@ public class PersistenciaFramework {
 				.map(campoAnotado -> campoAnotado.getAnnotation(PersistenciaCampo.class).nome())
 				.collect(Collectors.joining(", "));
 		String placeholders = camposAnotados.stream().map(campoAnotado -> "?").collect(Collectors.joining(", "));
-		String sql = "INSERT INTO " + nomeTabela + " (" + nomesColunas + ") VALUES (" + placeholders + ")";
+		String sql = "INSERT INTO " + tableName + " (" + nomesColunas + ") VALUES (" + placeholders + ")";
 		
 		try {
 			Connection connection = conectar();
@@ -50,10 +49,10 @@ public class PersistenciaFramework {
 	}
 
 	public List<Object> findAll(Class<?> clazz) throws Exception {
-		String nomeTabela = getTableName(clazz);
+		String tableName = getTableName(clazz);
 		List<Object> resultados = new ArrayList<>();
 
-		String sql = "SELECT * FROM " + nomeTabela;
+		String sql = "SELECT * FROM " + tableName;
 
 		try (Connection conn = conectar();
 				PreparedStatement stmt = conn.prepareStatement(sql);
@@ -78,8 +77,8 @@ public class PersistenciaFramework {
 	}
 
 	public boolean doesExist(Class<?> clazz, String campoChave, Object valor) throws Exception {
-		String nomeTabela = getTableName(clazz);
-		String sql = "SELECT COUNT(*) FROM " + nomeTabela + " WHERE " + campoChave + " = ?";
+		String tableName = getTableName(clazz);
+		String sql = "SELECT COUNT(*) FROM " + tableName + " WHERE " + campoChave + " = ?";
 
 		try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
 
