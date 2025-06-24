@@ -1,41 +1,30 @@
 package com.ufscar.dc.pooa.leilao.veiculos.model;
 
-import com.ufscar.dc.pooa.leilao.veiculos.framework.Campo;
-import com.ufscar.dc.pooa.leilao.veiculos.framework.Tabela;
+import java.time.LocalDateTime;
+
+import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaCampo;
+import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaTabela;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Tabela(nome = "LEILAO_VEICULOS.TB_DIVULGACAO")
+@Getter
+@Setter
+@PersistenciaTabela(nome = "LEILAO_VEICULOS.TB_DIVULGACAO")
 public class Divulgacao {
-	@Campo(nome = "UID")
+	@PersistenciaCampo(nome = "UID_DIVULGACAO")
 	private String uid;
 	
-	@Campo(nome = "tx_nome")
+	@PersistenciaCampo(nome = "TX_NOME")
 	private String nome;
 	
-	@Campo(nome = "tx_link")
+	@PersistenciaCampo(nome = "TX_LINK")
 	private String link;
 	
-	public String getUid() {
-		return uid;
-	}
-	public void setUid(String uid) {
-		this.uid = uid;
-	}
-	public String getNome() {
-		return nome;
-	}
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-	public String getLink() {
-		return link;
-	}
-	public void setLink(String link) {
-		this.link = link;
-	}
-
+	@PersistenciaCampo(nome = "DH_CRIACAO")
+	private LocalDateTime dhCriacao;
 }

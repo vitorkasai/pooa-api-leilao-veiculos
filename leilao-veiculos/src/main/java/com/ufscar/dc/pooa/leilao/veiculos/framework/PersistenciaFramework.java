@@ -7,49 +7,45 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 
 public class PersistenciaFramework {
-	public void save(Object entidade) throws SQLException, IllegalAccessException {
+	public void save(Object entidade) {
 		Class<?> clazz = entidade.getClass();
 		String nomeTabela = getTableName(clazz);
 
-		StringBuilder nomesColunas = new StringBuilder();
-		StringBuilder placeholders = new StringBuilder();
+		List<Field> camposAnotados = Arrays.stream(clazz.getDeclaredFields())
+				.filter(f -> f.isAnnotationPresent(PersistenciaCampo.class))
+				.toList();
 
-		Field[] campos = clazz.getDeclaredFields();
-		int totalCampos = 0;
-
-		for (Field campo : campos) {
-			if (campo.isAnnotationPresent(Campo.class)) {
-				Campo anotacaoCampo = campo.getAnnotation(Campo.class);
-				nomesColunas.append(anotacaoCampo.nome()).append(",");
-				placeholders.append("?").append(",");
-				totalCampos++;
-			}
+		if (camposAnotados.isEmpty()) {
+			throw new BadRequestException("Nenhum campo anotado com @PersistenciaCampo encontrado");
 		}
 
-		if (totalCampos == 0) {
-			throw new IllegalArgumentException("Nenhum campo anotado com @Campo encontrado");
-		}
-
-		nomesColunas.setLength(nomesColunas.length() - 1);
-		placeholders.setLength(placeholders.length() - 1);
-
+		String nomesColunas = camposAnotados.stream()
+				.map(campoAnotado -> campoAnotado.getAnnotation(PersistenciaCampo.class).nome())
+				.collect(Collectors.joining(", "));
+		String placeholders = camposAnotados.stream().map(campoAnotado -> "?").collect(Collectors.joining(", "));
 		String sql = "INSERT INTO " + nomeTabela + " (" + nomesColunas + ") VALUES (" + placeholders + ")";
-
-		try (Connection conn = conectar(); PreparedStatement stmt = conn.prepareStatement(sql)) {
-
-			int index = 1;
-			for (Field campo : campos) {
-				if (campo.isAnnotationPresent(Campo.class)) {
-					campo.setAccessible(true);
-					Object valor = campo.get(entidade);
-					stmt.setObject(index++, valor);
-				}
+		
+		try {
+			Connection connection = conectar();
+			PreparedStatement stmt = connection.prepareStatement(sql);
+			for (int i = 0; i < camposAnotados.size(); i++) {
+				Field campo = camposAnotados.get(i);
+				campo.setAccessible(true);
+				Object valor = campo.get(entidade);
+				stmt.setObject(i + 1, valor);
 			}
-
 			stmt.executeUpdate();
+			stmt.close();
+			connection.close();
+		} catch (Exception e) {
+			throw new BadRequestException("Falha ao salvar com framework de persistência");
 		}
 	}
 
@@ -67,8 +63,8 @@ public class PersistenciaFramework {
 				Object instancia = clazz.getDeclaredConstructor().newInstance();
 
 				for (Field campo : clazz.getDeclaredFields()) {
-					if (campo.isAnnotationPresent(Campo.class)) {
-						Campo anotacaoCampo = campo.getAnnotation(Campo.class);
+					if (campo.isAnnotationPresent(PersistenciaCampo.class)) {
+						PersistenciaCampo anotacaoCampo = campo.getAnnotation(PersistenciaCampo.class);
 						campo.setAccessible(true);
 						campo.set(instancia, rs.getObject(anotacaoCampo.nome()));
 					}
@@ -100,11 +96,11 @@ public class PersistenciaFramework {
 	}
 
 	private String getTableName(Class<?> clazz) {
-		if (!clazz.isAnnotationPresent(Tabela.class)) {
+		if (!clazz.isAnnotationPresent(PersistenciaTabela.class)) {
 			throw new IllegalArgumentException("A classe " + clazz.getName() + " não está anotada com @Tabela");
 		}
 
-		Tabela anotacao = clazz.getAnnotation(Tabela.class);
+		PersistenciaTabela anotacao = clazz.getAnnotation(PersistenciaTabela.class);
 		return anotacao.schema().isEmpty() ? anotacao.nome() : anotacao.schema() + "." + anotacao.nome();
 	}
 

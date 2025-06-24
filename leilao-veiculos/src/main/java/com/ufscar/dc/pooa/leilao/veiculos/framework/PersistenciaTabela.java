@@ -4,7 +4,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Tabela {
+public @interface PersistenciaTabela {
     String nome();
     String schema() default "";
 }

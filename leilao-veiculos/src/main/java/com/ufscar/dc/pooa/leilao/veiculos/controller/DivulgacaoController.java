@@ -3,14 +3,14 @@ package com.ufscar.dc.pooa.leilao.veiculos.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.DivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
-import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaFramework;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.model.Divulgacao;
+import com.ufscar.dc.pooa.leilao.veiculos.service.DivulgacaoService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,19 +19,12 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/divulgacao")
 public class DivulgacaoController {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(DivulgacaoController.class);
+    private final DivulgacaoService service;
 
     @PostMapping
-    public ResponseEntity<Void> create() {
-        //log.info("Criando novo link de divulgação: {}", dto);
-        try {
-        	 PersistenciaFramework framework = new PersistenciaFramework();
-             
-             Divulgacao divulgacao = new Divulgacao("UID_teste", "nome", "link");
-             framework.save(divulgacao);
-        }
-        catch (Exception e) {
-        	throw new BadRequestException("error");
-        }     
+    public ResponseEntity<Void> create(@RequestBody DivulgacaoDTO dto) {
+        log.info("Criando novo link de divulgação: {}", dto.getNome());
+        service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
