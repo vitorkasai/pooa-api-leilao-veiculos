@@ -4,12 +4,11 @@ import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnDivulgacaoDTO;
 
 import java.util.List;
-import java.util.UUID;
 
 public interface DivulgacaoService {
-	ReturnDivulgacaoDTO findByUid(UUID uid);
+	ReturnDivulgacaoDTO findByUid(String uid);
 	List<ReturnDivulgacaoDTO> findAll();
 	void create(CreateDivulgacaoDTO dto);
-	void delete(UUID uid);
+	void delete(String uid);
 
 }

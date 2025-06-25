@@ -50,6 +50,7 @@ public class PersistenciaFramework {
 				Object valor = campo.get(entidade);
 				statement.setObject(i + 1, valor);
 			}
+			statement.executeUpdate();
 			statement.close();
 			connection.close();
 		} catch (Exception e) {
@@ -67,6 +68,7 @@ public class PersistenciaFramework {
 			Connection connection = conectar();
 			PreparedStatement statement = connection.prepareStatement(sql);
 			statement.setObject(1, valor);
+			statement.executeUpdate();
 			statement.close();
 			connection.close();
 		} catch (Exception e) {

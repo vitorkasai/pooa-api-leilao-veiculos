@@ -12,7 +12,7 @@ import java.util.UUID;
 public class DivulgacaoBuilder {
 	public Divulgacao build(CreateDivulgacaoDTO dto) {
 		Divulgacao divulgacao = new Divulgacao();
-		divulgacao.setUid(UUID.randomUUID());
+		divulgacao.setUid(UUID.randomUUID().toString());
 		divulgacao.setNome(dto.getNome());
 		divulgacao.setLink(dto.getLink());
 		divulgacao.setDhCriacao(LocalDateTime.now());

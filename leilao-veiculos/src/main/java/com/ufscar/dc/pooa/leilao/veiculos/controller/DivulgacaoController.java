@@ -1,19 +1,16 @@
 package com.ufscar.dc.pooa.leilao.veiculos.controller;
 
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnDivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
+import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
+import com.ufscar.dc.pooa.leilao.veiculos.service.DivulgacaoService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
-import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.service.DivulgacaoService;
-
-import lombok.RequiredArgsConstructor;
-
 import java.util.List;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,7 +20,7 @@ public class DivulgacaoController {
     private final DivulgacaoService service;
 
     @GetMapping("/{uid}")
-    public ResponseEntity<ReturnDivulgacaoDTO> findByUid(@PathVariable UUID uid) {
+    public ResponseEntity<ReturnDivulgacaoDTO> findByUid(@PathVariable String uid) {
         log.info("Buscando divulgação: {}", uid);
         return new ResponseEntity<>(service.findByUid(uid), HttpStatus.OK);
     }
@@ -42,7 +39,7 @@ public class DivulgacaoController {
     }
 
     @DeleteMapping("/{uid}")
-    public ResponseEntity<Void> delete(@PathVariable UUID uid) {
+    public ResponseEntity<Void> delete(@PathVariable String uid) {
         log.info("Deletando divulgação: {}", uid);
         service.delete(uid);
         return new ResponseEntity<>(HttpStatus.OK);

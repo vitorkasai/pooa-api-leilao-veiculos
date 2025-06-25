@@ -27,7 +27,7 @@ public class DivulgacaoServiceImpl implements DivulgacaoService {
 	private final PersistenciaFramework framework;
 
 	@Override
-	public ReturnDivulgacaoDTO findByUid(UUID uid) {
+	public ReturnDivulgacaoDTO findByUid(String uid) {
 		log.debug("Buscando divulgação: {}", uid);
 		Divulgacao divulgacao = (Divulgacao) framework.findOneBy(Divulgacao.class, "uid", uid)
 				.orElseThrow(() -> new NotFoundException("Falha ao validar divulgação de uid: " + uid));
@@ -51,7 +51,7 @@ public class DivulgacaoServiceImpl implements DivulgacaoService {
 	}
 
 	@Override
-	public void delete(UUID uid) {
+	public void delete(String uid) {
 		log.debug("Deletando link de divulgação: {}", uid);
 		if (!framework.doesExist(Divulgacao.class, "uid", uid)) {
 			log.error("Falha ao validar divulgação com uid {} ao deletar", uid);

@@ -18,7 +18,7 @@ import lombok.Setter;
 @PersistenciaTabela(schema = "LEILAO_VEICULOS", nome = "TB_DIVULGACAO")
 public class Divulgacao {
 	@PersistenciaCampo(nome = "UID_DIVULGACAO")
-	private UUID uid;
+	private String uid;
 	
 	@PersistenciaCampo(nome = "TX_NOME")
 	private String nome;
