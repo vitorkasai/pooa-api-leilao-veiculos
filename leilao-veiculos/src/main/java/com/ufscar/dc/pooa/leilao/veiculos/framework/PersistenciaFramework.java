@@ -102,7 +102,12 @@ public class PersistenciaFramework {
 					if (campo.isAnnotationPresent(PersistenciaCampo.class)) {
 						PersistenciaCampo anotacaoCampo = campo.getAnnotation(PersistenciaCampo.class);
 						campo.setAccessible(true);
-						campo.set(instancia, rs.getObject(anotacaoCampo.nome()));
+						Object valorColuna = rs.getObject(anotacaoCampo.nome());
+						if (campo.getType().equals(LocalDateTime.class) && valorColuna instanceof Timestamp) {
+							campo.set(instancia, ((Timestamp) valorColuna).toLocalDateTime());
+						} else {
+							campo.set(instancia, valorColuna);
+						}
 					}
 				}
 
