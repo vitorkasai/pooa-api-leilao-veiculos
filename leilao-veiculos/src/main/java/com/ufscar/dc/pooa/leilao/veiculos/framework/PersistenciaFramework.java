@@ -166,24 +166,26 @@ public class PersistenciaFramework {
 	private String getTableName(Class<?> clazz) {
 		if (!clazz.isAnnotationPresent(PersistenciaTabela.class)) {
 			log.error("A classe {} não está anotada com @PersistenciaTabela", clazz.getName());
-			throw new IllegalArgumentException("A classe " + clazz.getName() + " não está anotada com @PersistenciaTabela");
+			throw new IllegalArgumentException("A classe " + clazz.getName()
+				+ " não está anotada com @PersistenciaTabela");
 		}
 		PersistenciaTabela anotacao = clazz.getAnnotation(PersistenciaTabela.class);
-		return anotacao.schema().isEmpty()
-				? anotacao.nome()
-				: anotacao.schema() + "." + anotacao.nome();
+		return anotacao.schema().isEmpty() ? anotacao.nome() : anotacao.schema() + "." + anotacao.nome();
 	}
 
 	private String getColumnName(Class<?> clazz, String campo) {
 		if (!clazz.isAnnotationPresent(PersistenciaTabela.class)) {
 			log.error("A classe {} não está anotada com @PersistenciaTabela", clazz.getName());
-			throw new IllegalArgumentException("A classe " + clazz.getName() + " não está anotada com @PersistenciaTabela");
+			throw new IllegalArgumentException("A classe " + clazz.getName()
+				+ " não está anotada com @PersistenciaTabela");
 		}
 		try {
 			Field field = clazz.getDeclaredField(campo);
 			if (!field.isAnnotationPresent(PersistenciaCampo.class)) {
-				log.error("O campo '{}' não está anotado com @PersistenciaCampo na classe {}", campo, clazz.getSimpleName());
-				throw new IllegalArgumentException("O campo '" + campo + "' não está anotado com @PersistenciaCampo");
+				log.error("O campo '{}' não está anotado com @PersistenciaCampo na classe {}", 
+						campo, clazz.getSimpleName());
+				throw new IllegalArgumentException("O campo '" + campo +
+						"' não está anotado com @PersistenciaCampo");
 			}
 			PersistenciaCampo anotacaoCampo = field.getAnnotation(PersistenciaCampo.class);
 			return anotacaoCampo.nome();
