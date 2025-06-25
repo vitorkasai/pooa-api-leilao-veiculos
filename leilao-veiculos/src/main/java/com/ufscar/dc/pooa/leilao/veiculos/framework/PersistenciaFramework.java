@@ -128,7 +128,6 @@ public class PersistenciaFramework {
 	}
 
 	public Optional<Object> findOneBy(Class<?> clazz, String campoChave, Object valor) {
-		log.debug("Iniciando findOneBy para a classe '{}' com a chave '{}' e valor '{}'", clazz.getSimpleName(), campoChave, valor);
 		String tableName = getTableName(clazz);
 		String columnName = getColumnName(clazz, campoChave);
 
@@ -138,20 +137,16 @@ public class PersistenciaFramework {
 		try {
 			Connection connection = conectar();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			log.debug("Binding do parâmetro de findOneBy [1]: {}", valor);
 			statement.setObject(1, valor);
-
 			ResultSet rs = statement.executeQuery();
 			Optional<Object> resultado = Optional.empty();
 			if (rs.next()) {
 				log.debug("Registro encontrado. Iniciando mapeamento para o objeto.");
 				Object instancia = clazz.getDeclaredConstructor().newInstance();
-
 				for (Field campo : clazz.getDeclaredFields()) {
 					if (campo.isAnnotationPresent(PersistenciaCampo.class)) {
 						PersistenciaCampo anotacaoCampo = campo.getAnnotation(PersistenciaCampo.class);
 						campo.setAccessible(true);
-
 						Object valorColuna = rs.getObject(anotacaoCampo.nome());
 						if (campo.getType().equals(LocalDateTime.class) && valorColuna instanceof Timestamp) {
 							campo.set(instancia, ((Timestamp) valorColuna).toLocalDateTime());
@@ -164,7 +159,6 @@ public class PersistenciaFramework {
 				resultado = Optional.of(instancia);
 				log.debug("Objeto mapeado com sucesso: {}", instancia);
 			}
-
 			statement.close();
 			connection.close();
 
@@ -242,6 +236,6 @@ public class PersistenciaFramework {
 
 	private Connection conectar() throws SQLException {
 		log.debug("Abrindo nova conexão com o banco de dados.");
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "root"); // TODO mudar para puxar das properties
+		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "root");
 	}
 }

@@ -30,7 +30,8 @@ public class DivulgacaoServiceImpl implements DivulgacaoService {
 	@Override
 	public ReturnDivulgacaoDTO findByUid(UUID uid) {
 		log.debug("Buscando divulgação: {}", uid);
-		Divulgacao divulgacao = (Divulgacao) framework.findOneBy(Divulgacao.class, "uid", uid).orElseThrow(() -> new NotFoundException("Falha ao validar divulgação de uid: " + uid));
+		Divulgacao divulgacao = (Divulgacao) framework.findOneBy(Divulgacao.class, "uid", uid)
+				.orElseThrow(() -> new NotFoundException("Falha ao validar divulgação de uid: " + uid));
 		return builder.build(divulgacao);
 	}
 
