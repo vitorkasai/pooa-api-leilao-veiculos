@@ -4,6 +4,8 @@ import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.service.impl.VeiculoServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.sql.*;
@@ -11,8 +13,18 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+@Component
 public class PersistenciaFramework {
 	private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
+
+	@Value("${spring.datasource.url}")
+	private String url;
+
+	@Value("${spring.datasource.username}")
+	private String username;
+
+	@Value("${spring.datasource.password}")
+	private String password;
 
 	public void save(Object entidade) {
 		String tableName = getTableName(entidade.getClass());
@@ -38,7 +50,6 @@ public class PersistenciaFramework {
 				Field campo = camposAnotados.get(i);
 				campo.setAccessible(true);
 				Object valor = campo.get(entidade);
-				log.debug("Binding do parâmetro de SAVE [{}]: {}", i + 1, valor);
 				statement.setObject(i + 1, valor);
 			}
 			statement.close();
@@ -58,7 +69,6 @@ public class PersistenciaFramework {
 		try {
 			Connection connection = conectar();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			log.debug("Binding do parâmetro de DELETE [1]: {}", valor);
 			statement.setObject(1, valor);
 			statement.close();
 			connection.close();
@@ -151,7 +161,6 @@ public class PersistenciaFramework {
 		try {
 			Connection connection = conectar();
 			PreparedStatement statement = connection.prepareStatement(sql);
-			log.debug("Binding do parâmetro de doesExist [1]: {}", valor);
 			statement.setObject(1, valor);
 			ResultSet rs = statement.executeQuery();
 			boolean resultado = false;
@@ -200,6 +209,6 @@ public class PersistenciaFramework {
 
 	private Connection conectar() throws SQLException {
 		log.debug("Abrindo nova conexão com o banco de dados.");
-		return DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres", "root");
+		return DriverManager.getConnection(url, username, password);
 	}
 }

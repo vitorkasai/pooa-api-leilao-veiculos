@@ -24,7 +24,7 @@ import lombok.RequiredArgsConstructor;
 public class DivulgacaoServiceImpl implements DivulgacaoService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(DivulgacaoServiceImpl.class);
 	private final DivulgacaoBuilder builder;
-	private final PersistenciaFramework framework = new PersistenciaFramework();
+	private final PersistenciaFramework framework;
 
 	@Override
 	public ReturnDivulgacaoDTO findByUid(UUID uid) {
