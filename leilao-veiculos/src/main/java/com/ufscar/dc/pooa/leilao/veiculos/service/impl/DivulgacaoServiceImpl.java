@@ -4,14 +4,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnDivulgacaoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
-import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.DivulgacaoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateDivulgacaoDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnDivulgacaoDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.framework.PersistenciaFramework;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
