@@ -19,7 +19,7 @@ public class PersistenciaFramework {
 
 	@Value("${spring.datasource.url}")
 	private String url;
-
+	
 	@Value("${spring.datasource.username}")
 	private String username;
 
