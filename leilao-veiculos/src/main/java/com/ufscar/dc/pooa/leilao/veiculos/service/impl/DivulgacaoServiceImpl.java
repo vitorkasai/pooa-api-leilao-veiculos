@@ -1,5 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -31,6 +32,14 @@ public class DivulgacaoServiceImpl implements DivulgacaoService {
 		log.debug("Buscando divulgação: {}", uid);
 		Divulgacao divulgacao = (Divulgacao) framework.findOneBy(Divulgacao.class, "uid", uid).orElseThrow(() -> new NotFoundException("Falha ao validar divulgação de uid: " + uid));
 		return builder.build(divulgacao);
+	}
+
+	@Override
+	public List<ReturnDivulgacaoDTO> findAll() {
+		log.debug("Buscando todas divulgações");
+		return framework.findAll(Divulgacao.class).stream()
+				.map(divulgacao -> builder.build((Divulgacao) divulgacao))
+				.toList();
 	}
 
 	@Override
