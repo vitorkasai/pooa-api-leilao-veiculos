@@ -31,7 +31,6 @@ public class PersistenciaFramework {
 		List<Field> camposAnotados = Arrays.stream(entidade.getClass().getDeclaredFields())
 				.filter(f -> f.isAnnotationPresent(PersistenciaCampo.class))
 				.toList();
-		
 		if (camposAnotados.isEmpty()) {
 			log.error("Falha ao salvar com framework de persistência: Nenhum campo anotado com @PersistenciaCampo encontrado");
 			throw new BadRequestException("Nenhum campo anotado com @PersistenciaCampo encontrado");
@@ -42,7 +41,6 @@ public class PersistenciaFramework {
 		String placeholders = camposAnotados.stream().map(campoAnotado -> "?").collect(Collectors.joining(", "));
 		String sql = "INSERT INTO " + tableName + " (" + nomesColunas + ") VALUES (" + placeholders + ")";
 		log.debug("SQL gerado para SAVE: {}", sql);
-		
 		try {
 			Connection connection = conectar();
 			PreparedStatement statement = connection.prepareStatement(sql);
@@ -63,7 +61,6 @@ public class PersistenciaFramework {
 	public void delete(Class<?> clazz, String campoChave, Object valor) {
 		String tableName = getTableName(clazz);
 		String columnName = getColumnName(clazz, campoChave);
-
 		String sql = "DELETE FROM " + tableName + " WHERE " + columnName + " = ?";
 		log.debug("SQL gerado para DELETE: {}", sql);
 		try {
@@ -81,17 +78,14 @@ public class PersistenciaFramework {
 	public List<Object> findAll(Class<?> clazz) {
 		String tableName = getTableName(clazz);
 		List<Object> resultados = new ArrayList<>();
-		
 		String sql = "SELECT * FROM " + tableName;
 		log.debug("SQL gerado para findAll: {}", sql);
-		try (
-				Connection connection = conectar();
-				PreparedStatement statement = connection.prepareStatement(sql);
-				ResultSet rs = statement.executeQuery()
-		) {
+		try {
+			Connection connection = conectar();
+			PreparedStatement statement = connection.prepareStatement(sql);
+			ResultSet rs = statement.executeQuery();
 			while (rs.next()) {
 				Object instancia = clazz.getDeclaredConstructor().newInstance();
-
 				for (Field campo : clazz.getDeclaredFields()) {
 					if (campo.isAnnotationPresent(PersistenciaCampo.class)) {
 						PersistenciaCampo anotacaoCampo = campo.getAnnotation(PersistenciaCampo.class);
@@ -104,24 +98,22 @@ public class PersistenciaFramework {
 						}
 					}
 				}
-
 				resultados.add(instancia);
 			}
-		}
-		catch (Exception e) {
+			statement.close();
+			connection.close();
+			return resultados;
+		} catch (Exception e) {
 			log.error("Falha ao buscar entidades com framework de persistência: {}", e.getMessage(), e);
 			throw new BadRequestException("Falha ao buscar entidades com framework de persistência");
 		}
-		return resultados;
 	}
 
 	public Optional<Object> findOneBy(Class<?> clazz, String campoChave, Object valor) {
 		String tableName = getTableName(clazz);
 		String columnName = getColumnName(clazz, campoChave);
-
 		String sql = "SELECT * FROM " + tableName + " WHERE " + columnName + " = ? LIMIT 1";
 		log.debug("SQL gerado para findOneBy: {}", sql);
-
 		try {
 			Connection connection = conectar();
 			PreparedStatement statement = connection.prepareStatement(sql);
