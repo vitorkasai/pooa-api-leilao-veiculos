@@ -12,6 +12,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.service.DivulgacaoService;
 
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -25,6 +26,12 @@ public class DivulgacaoController {
     public ResponseEntity<ReturnDivulgacaoDTO> findByUid(@PathVariable UUID uid) {
         log.info("Buscando divulgação: {}", uid);
         return new ResponseEntity<>(service.findByUid(uid), HttpStatus.OK);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ReturnDivulgacaoDTO>> findAll() {
+        log.info("Buscando todas divulgação");
+        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
     @PostMapping
