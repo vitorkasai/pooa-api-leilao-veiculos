@@ -38,4 +38,11 @@ public class OfertaController {
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancel(@PathVariable Long id) {
+        log.info("Cancelando oferta de ID: {}", id);
+        service.cancel(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }

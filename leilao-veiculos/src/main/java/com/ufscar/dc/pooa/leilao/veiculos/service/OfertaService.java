@@ -12,4 +12,5 @@ public interface OfertaService {
     List<ReturnOfertaDTO> findAll();
     List<ReturnOfertaDTO> findAllByEstado(Estado estado);
     void create(CreateOfertaDTO dto);
+    void cancel(Long id);
 }

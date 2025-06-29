@@ -34,8 +34,7 @@ public class ValidatorUtil {
 		boolean veiculoIdPresente = dto.getVeiculoId() != null;
 		boolean veiculoDtoPresente = dto.getVeiculo() != null;
 		if (veiculoIdPresente == veiculoDtoPresente) {
-			throw new BadRequestException(
-					"É necessário informar o ID de um veículo existente ou os dados para criar um novo veículo");
+			throw new BadRequestException("É necessário informar apenas o ID de um veículo existente ou apenas os dados para criar um novo veículo");
 		}
 		if (veiculoDtoPresente) {
 			validate(dto.getVeiculo());

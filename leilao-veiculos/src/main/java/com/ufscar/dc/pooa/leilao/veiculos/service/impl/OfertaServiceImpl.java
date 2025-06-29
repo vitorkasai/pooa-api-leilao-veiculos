@@ -50,7 +50,7 @@ public class OfertaServiceImpl implements OfertaService {
 
     @Override
     public List<ReturnOfertaDTO> findAllByEstado(Estado estado) {
-        log.debug("Listando todas as ofertas com estado: {}", estado);
+        log.debug("Listando todas as ofertas de estado: {}", estado);
         return repository.findAllByEstado(estado).stream().map(builder::build).collect(Collectors.toList());
     }
 
@@ -66,13 +66,23 @@ public class OfertaServiceImpl implements OfertaService {
             veiculoId = veiculoService.create(dto.getVeiculo());
         }
         Veiculo veiculo = veiculoService.findDomainById(veiculoId);
-        validateDatas(dto, log);
+        validateDatas(dto);
 
         dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
     }
+
+    @Override
+    public void cancel(Long id) {
+        log.debug("Cancelando oferta de ID: {}", id);
+        Oferta oferta = findDomainById(id);
+        validateCancelarOferta(oferta);
+
+        oferta.setEstado(Estado.CANCELADO);
+        repository.save(oferta);
+    }
     
-    private static void validateDatas(CreateOfertaDTO dto, AppLogger log) {
+    private static void validateDatas(CreateOfertaDTO dto) {
         LocalDateTime now = LocalDateTime.now();
         if (dto.getDhInicio().isBefore(now)) {
             log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);
@@ -81,6 +91,13 @@ public class OfertaServiceImpl implements OfertaService {
         if (dto.getDhInicio().isAfter(dto.getDhFim())) {
             log.error("O dhFim {} deve ser mais velha que dhInicio {}", dto.getDhFim(), dto.getDhInicio());
             throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
+        }
+    }
+
+    private static void validateCancelarOferta(Oferta oferta) {
+        if (oferta.getEstado() == Estado.FINALIZADO) {
+            log.error("Uma oferta finalizada não pode ser cancelada. Oferta ID: {}", oferta.getId());
+            throw new BadRequestException("Uma oferta finalizada não pode ser cancelada");
         }
     }
 }
