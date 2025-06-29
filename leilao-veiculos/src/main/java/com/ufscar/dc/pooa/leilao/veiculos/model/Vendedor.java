@@ -7,10 +7,9 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Vendedor extends Usuario{
+public class Vendedor extends Usuario {
     @Column(name = "NOME_FANTASIA", length = 100)
     private String nomeFantasia;
 

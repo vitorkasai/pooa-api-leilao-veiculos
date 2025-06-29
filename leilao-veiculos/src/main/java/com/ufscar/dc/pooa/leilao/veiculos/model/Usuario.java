@@ -25,7 +25,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(schema = "LEILAO_VEICULOS", name = "TB_USUARIO")
-public class Usuario {
+public abstract class Usuario {
     @Id
     @Column(name = "ID_USUARIO", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
