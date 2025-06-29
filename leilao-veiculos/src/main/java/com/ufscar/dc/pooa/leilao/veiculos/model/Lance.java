@@ -21,7 +21,7 @@ public class Lance {
     private Long id;
 
     @Column(name = "VALOR", nullable = false)
-    private double valor;
+    private Double valor;
 
     @Column(name = "DH_CRIACAO", nullable = false)
     private LocalDateTime dhCriacao;
