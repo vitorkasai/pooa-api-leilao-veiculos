@@ -21,9 +21,9 @@ public class NotificacaoController {
 	private final NotificacaoService service;
 	
 	@GetMapping("/usuario/{usuarioId}")
-	public ResponseEntity<List<ReturnNotificacaoDTO>> listAllByUserId(@PathVariable Long usuarioId) {
+	public ResponseEntity<List<ReturnNotificacaoDTO>> findAllByUserId(@PathVariable Long usuarioId) {
 		log.info("Listando todas as notificações para o usuário de ID: {}", usuarioId);
-		return new ResponseEntity<>(service.listAllByUsuarioId(usuarioId), HttpStatus.OK);
+		return new ResponseEntity<>(service.findAllByUsuarioId(usuarioId), HttpStatus.OK);
 	}
 	
 	@PatchMapping("/visualizar/{notificacaoId}")

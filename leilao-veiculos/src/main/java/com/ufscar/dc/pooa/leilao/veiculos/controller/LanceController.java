@@ -20,7 +20,7 @@ public class LanceController {
     private final LanceService service;
 
     @GetMapping("/oferta/{ofertaId}")
-    public ResponseEntity<List<ReturnLanceDTO>> listAllByOfferId(@PathVariable Long ofertaId) {
+    public ResponseEntity<List<ReturnLanceDTO>> findAllByOfferId(@PathVariable Long ofertaId) {
         log.info("Listando todos os lances com oferta de ID: {}", ofertaId);
         return new ResponseEntity<>(service.findAllByOfertaId(ofertaId), HttpStatus.OK);
     }

@@ -24,8 +24,10 @@ public class LanceBuilder {
         ReturnLanceDTO lanceDTO = new ReturnLanceDTO();
         lanceDTO.setId(entity.getId());
         lanceDTO.setValor(entity.getValor());
-        lanceDTO.setOfertaId(entity.getOferta().getId());
-        lanceDTO.setCompradorId(entity.getComprador().getId());
+        OfertaBuilder ofertaBuilder = new OfertaBuilder();
+        lanceDTO.setOferta(ofertaBuilder.build(entity.getOferta()));
+        CompradorBuilder compradorBuilder = new CompradorBuilder();
+        lanceDTO.setComprador(compradorBuilder.build(entity.getComprador()));
         lanceDTO.setData(entity.getDhCriacao());
         return lanceDTO;
     }

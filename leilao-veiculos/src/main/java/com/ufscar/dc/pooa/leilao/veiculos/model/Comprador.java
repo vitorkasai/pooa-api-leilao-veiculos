@@ -13,9 +13,9 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Comprador extends Usuario {
-    @Column(name = "INTERESSE", nullable = false, length = 150)
+    @Column(name = "INTERESSE", length = 150)
     private String interesse;
 
-    @Column(name = "DATA_NASCIMENTO", nullable = false, length = 15)
+    @Column(name = "DATA_NASCIMENTO", length = 15)
     private String dataNascimento;
 }
