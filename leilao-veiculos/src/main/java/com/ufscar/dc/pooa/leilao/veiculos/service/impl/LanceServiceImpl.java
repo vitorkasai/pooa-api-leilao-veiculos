@@ -11,6 +11,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.builder.LanceBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateLanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnLanceDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
@@ -46,6 +47,12 @@ public class LanceServiceImpl implements LanceService {
     public List<ReturnLanceDTO> findAllByCompradorId(Long id) {
         log.debug("Listando todas os lances do comprador de ID: {}", id);
         return repository.findAllByCompradorIdOrderByValorDesc(id).stream().map(builder::build).collect(Collectors.toList());
+    }
+    
+    @Override
+    public Lance findUltimoLance(Long ofertaId) {
+    	log.debug("Buscando ultimo lance da oferta de ID: {}", ofertaId);
+    	return repository.findFirstByOfertaIdOrderByDhCriacaoDesc(ofertaId).orElseThrow(() -> new NotFoundException("Falha ao validar oferta"));
     }
 
     @Override

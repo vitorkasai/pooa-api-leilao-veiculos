@@ -1,17 +1,16 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateCompradorDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.indicator.UsuarioPapel;
-import com.ufscar.dc.pooa.leilao.veiculos.model.Comprador;
+import java.time.LocalDateTime;
+
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateCompradorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.model.Comprador;
 
 @Component
 public class CompradorBuilder {
     public Comprador build(CreateCompradorDTO dto) {
         Comprador comprador = new Comprador();
-        comprador.setPapel(UsuarioPapel.COMPRADOR.getValue());
         comprador.setNome(dto.getNome());
         comprador.setSobrenome(dto.getSobrenome());
         comprador.setEmail(dto.getEmail());
