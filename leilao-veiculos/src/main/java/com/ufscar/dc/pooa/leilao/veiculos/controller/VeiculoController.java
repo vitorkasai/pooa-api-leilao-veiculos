@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/veiculo")
 public class VeiculoController {
-
     private static final AppLogger log =  AppLoggerFactory.getAppLogger(VeiculoController.class);
     private final VeiculoService service;
 

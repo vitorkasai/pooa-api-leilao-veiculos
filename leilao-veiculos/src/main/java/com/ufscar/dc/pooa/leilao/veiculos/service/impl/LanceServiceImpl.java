@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.LanceBuilder;
@@ -37,14 +38,25 @@ public class LanceServiceImpl implements LanceService {
     private final LanceRepository repository;
 
     @Override
+    public ReturnLanceDTO findVencedorByOfertaId(Long id) {
+        log.debug("Buscando lance vencedor com oferta de ID: {}", id);
+        Oferta oferta = ofertaService.findDomainById(id);
+        validateDadosOfertaFinalizada(oferta);
+        Lance lance = repository.findFirstByOfertaIdOrderByDhCriacaoDesc(id).orElseThrow(() -> new NotFoundException("Falha ao validar lance vencedor da oferta de id: " + id));
+        return builder.build(lance);
+    }
+
+    @Override
     public List<ReturnLanceDTO> findAllByOfertaId(Long id) {
         log.debug("Listando todas os lances da oferta de ID: {}", id);
+        ofertaService.findDomainById(id);
         return repository.findAllByOfertaIdOrderByValorDesc(id).stream().map(builder::build).collect(Collectors.toList());
     }
 
     @Override
     public List<ReturnLanceDTO> findAllByCompradorId(Long id) {
         log.debug("Listando todas os lances do comprador de ID: {}", id);
+        compradorService.findDomainById(id);
         return repository.findAllByCompradorIdOrderByValorDesc(id).stream().map(builder::build).collect(Collectors.toList());
     }
 
@@ -72,13 +84,20 @@ public class LanceServiceImpl implements LanceService {
         notificacaoService.createNotificacao(lance);
     }
 
+    private static void validateDadosOfertaFinalizada(Oferta oferta) {
+        if (oferta.getEstado() != Estado.FINALIZADO) {
+            log.error("Falha ao validar oferta com estado {} ao realizar lance", oferta.getEstado());
+            throw new BadRequestException("Falha ao validar oferta ao realizar lance");
+        }
+    }
+
     private static void validateDadosOferta(CreateLanceDTO dto, Oferta oferta) {
         if (oferta.getEstado() != Estado.EM_ANDAMENTO) {
             log.error("Falha ao validar oferta com estado {} ao realizar lance", oferta.getEstado());
             throw new BadRequestException("Falha ao validar oferta ao realizar lance");
         }
         if (dto.getValor() < oferta.getValorInicial()) {
-            log.error("O valor deve ser maior que o valor inicial da oferta: " + oferta.getValorInicial());
+            log.error("O valor deve ser maior que o valor inicial da oferta: {}", oferta.getValorInicial());
             throw new BadRequestException("O valor deve ser maior que o valor inicial da oferta");
         }
     }
@@ -86,15 +105,15 @@ public class LanceServiceImpl implements LanceService {
     private static void validateUltimoLance(CreateLanceDTO dto, Lance ultimoLance, Oferta oferta) {
         Double valorUltimoLance = ultimoLance.getValor();
         if (valorUltimoLance > dto.getValor()) {
-            log.error("O valor deve ser maior que o valor do último lance feito: " + oferta.getEstado());
+            log.error("O valor deve ser maior que o valor do último lance feito: {}", oferta.getEstado());
             throw new BadRequestException("O valor deve ser maior que o valor do último lance feito");
         }
         if ((dto.getValor() - valorUltimoLance) < oferta.getValorIncremental()) {
-            log.error("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental: " + oferta.getValorIncremental());
+            log.error("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental: {}", oferta.getValorIncremental());
             throw new BadRequestException("Diferença entre o valor e o valor do último lance deve ser maior que o valorIncremental");
         }
         if (dto.getCompradorId().equals(ultimoLance.getComprador().getId())) {
-            log.error("O mesmo comprador não pode realizar dois lances consecutivos. Comprador ID: " + dto.getCompradorId());
+            log.error("O mesmo comprador não pode realizar dois lances consecutivos. Comprador ID: {}", dto.getCompradorId());
             throw new BadRequestException("O mesmo comprador não pode realizar dois lances consecutivos");
         }
     }

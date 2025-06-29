@@ -6,6 +6,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnLanceDTO;
 import java.util.List;
 
 public interface LanceService {
+    ReturnLanceDTO findVencedorByOfertaId(Long id);
     List<ReturnLanceDTO> findAllByOfertaId(Long id);
     List<ReturnLanceDTO> findAllByCompradorId(Long id);
     void create(CreateLanceDTO dto);

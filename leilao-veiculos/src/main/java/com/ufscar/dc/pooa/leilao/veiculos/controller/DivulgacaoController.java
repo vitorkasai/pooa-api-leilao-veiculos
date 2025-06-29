@@ -21,13 +21,13 @@ public class DivulgacaoController {
 
     @GetMapping("/{uid}")
     public ResponseEntity<ReturnDivulgacaoDTO> findByUid(@PathVariable String uid) {
-        log.info("Buscando divulgação: {}", uid);
+        log.info("Buscando divulgação de UID: {}", uid);
         return new ResponseEntity<>(service.findByUid(uid), HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<ReturnDivulgacaoDTO>> findAll() {
-        log.info("Buscando todas divulgação");
+        log.info("Listando todas as divulgações");
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
