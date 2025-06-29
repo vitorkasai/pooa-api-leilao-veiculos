@@ -20,7 +20,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Veiculo {
-
     @Id
     @Column(name = "ID_VEICULO", nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.IDENTITY)

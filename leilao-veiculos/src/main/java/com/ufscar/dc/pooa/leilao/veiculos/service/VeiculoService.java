@@ -5,5 +5,5 @@ import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 
 public interface VeiculoService {
     Veiculo findDomainById(Long id);
-    void create(CreateVeiculoDTO dto);
+    Long create(CreateVeiculoDTO dto);
 }

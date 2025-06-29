@@ -9,6 +9,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Comprador;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.CompradorRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
+import com.ufscar.dc.pooa.leilao.veiculos.util.Validators;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +31,7 @@ public class CompradorServiceImpl implements CompradorService {
     @Override
     public void create(CreateCompradorDTO dto) {
         log.debug("Criando novo comprador: {}", dto);
-        validate(dto);
+        Validators.validate(dto);
         repository.save(builder.build(dto));
-    }
-
-    private static void validate(CreateCompradorDTO dto) {
-        Optional.ofNullable(dto.getNome()).orElseThrow(() -> new BadRequestException("Campo nome é obrigatório"));
-        Optional.ofNullable(dto.getSobrenome()).orElseThrow(() -> new BadRequestException("Campo sobrenome é obrigatório"));
-        Optional.ofNullable(dto.getEmail()).orElseThrow(() -> new BadRequestException("Campo email é obrigatório"));
-        Optional.ofNullable(dto.getTelefone()).orElseThrow(() -> new BadRequestException("Campo telefone é obrigatório"));
-        Optional.ofNullable(dto.getDocumento()).orElseThrow(() -> new BadRequestException("Campo documento é obrigatório"));
-        Optional.ofNullable(dto.getInteresse()).orElseThrow(() -> new BadRequestException("Campo interesse é obrigatório"));
-        Optional.ofNullable(dto.getDataNascimento()).orElseThrow(() -> new BadRequestException("Campo dataNascimento é obrigatório"));
     }
 }

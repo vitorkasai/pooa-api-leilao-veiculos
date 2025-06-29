@@ -5,6 +5,6 @@ import java.util.List;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnNotificacaoDTO;
 
 public interface NotificacaoService {
-	public List<ReturnNotificacaoDTO> listAllByUsuarioId(Long id);
-	public void view(Long id);
+	List<ReturnNotificacaoDTO> findAllByUsuarioId(Long id);
+	void view(Long id);
 }

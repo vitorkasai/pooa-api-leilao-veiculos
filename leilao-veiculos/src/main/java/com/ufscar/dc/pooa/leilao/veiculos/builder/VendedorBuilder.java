@@ -23,4 +23,16 @@ public class VendedorBuilder {
         vendedor.setDhCriacao(LocalDateTime.now());
         return vendedor;
 	}
+
+    public CreateVendedorDTO build(Vendedor entity) {
+        CreateVendedorDTO vendedorDTO = new CreateVendedorDTO();
+        vendedorDTO.setNome(entity.getNome());
+        vendedorDTO.setSobrenome(entity.getSobrenome());
+        vendedorDTO.setEmail(entity.getEmail());
+        vendedorDTO.setTelefone(entity.getTelefone());
+        vendedorDTO.setDocumento(entity.getDocumento());
+        vendedorDTO.setNomeFantasia(entity.getNomeFantasia());
+        vendedorDTO.setContaBancaria(entity.getContaBancaria());
+        return vendedorDTO;
+    }
 }

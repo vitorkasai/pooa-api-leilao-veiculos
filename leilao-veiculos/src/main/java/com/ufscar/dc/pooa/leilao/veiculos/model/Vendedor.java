@@ -11,9 +11,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Vendedor extends Usuario{
-    @Column(name = "NOME_FANTASIA", nullable = false, length = 100)
+    @Column(name = "NOME_FANTASIA", length = 100)
     private String nomeFantasia;
 
-    @Column(name = "CONTA_BANCARIA", nullable = false, length = 100)
+    @Column(name = "CONTA_BANCARIA", length = 100)
     private String contaBancaria;
 }

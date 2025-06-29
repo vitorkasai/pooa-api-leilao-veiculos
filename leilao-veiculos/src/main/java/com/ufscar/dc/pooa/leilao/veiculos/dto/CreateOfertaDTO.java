@@ -3,20 +3,21 @@ package com.ufscar.dc.pooa.leilao.veiculos.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-@AllArgsConstructor
-@NoArgsConstructor
 @ToString
 public class CreateOfertaDTO {
     private Double valorInicial;
     private Double valorIncremental;
     private Long vendedorId;
     private Long veiculoId;
+    private CreateVeiculoDTO veiculo;
     private CreateEnderecoDTO endereco;
 
     @JsonIgnore

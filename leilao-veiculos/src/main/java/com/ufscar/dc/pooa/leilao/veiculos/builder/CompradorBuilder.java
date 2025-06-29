@@ -22,4 +22,16 @@ public class CompradorBuilder {
         comprador.setDhCriacao(LocalDateTime.now());
         return comprador;
     }
+
+    public CreateCompradorDTO build(Comprador entity) {
+        CreateCompradorDTO compradorDTO = new CreateCompradorDTO();
+        compradorDTO.setNome(entity.getNome());
+        compradorDTO.setSobrenome(entity.getSobrenome());
+        compradorDTO.setEmail(entity.getEmail());
+        compradorDTO.setTelefone(entity.getTelefone());
+        compradorDTO.setDocumento(entity.getDocumento());
+        compradorDTO.setInteresse(entity.getInteresse());
+        compradorDTO.setDataNascimento(entity.getDataNascimento());
+        return compradorDTO;
+    }
 }

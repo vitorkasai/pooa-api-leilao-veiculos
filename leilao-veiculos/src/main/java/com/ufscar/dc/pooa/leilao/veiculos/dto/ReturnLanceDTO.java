@@ -13,8 +13,8 @@ import java.time.LocalDateTime;
 public class ReturnLanceDTO {
     private Long id;
     private Double valor;
-    private Long ofertaId;
-    private Long compradorId;
+    private ReturnOfertaDTO oferta;
+    private CreateCompradorDTO comprador;
 
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private LocalDateTime data;

@@ -23,7 +23,7 @@ public class NotificacaoServiceImpl implements NotificacaoService {
 	private final NotificacaoBuilder builder;
 	
 	@Override
-	public List<ReturnNotificacaoDTO> listAllByUsuarioId(Long usuarioId) {
+	public List<ReturnNotificacaoDTO> findAllByUsuarioId(Long usuarioId) {
 		log.debug("Listando todas as notificações não visualizadas do usuário de ID: {}", usuarioId);
 		return repository.findAllByUserId(usuarioId).stream().map(builder::build).collect(Collectors.toList());
 	}

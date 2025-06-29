@@ -19,4 +19,15 @@ public class EnderecoBuilder {
         endereco.setDhCriacao(LocalDateTime.now());
         return endereco;
     }
+
+    public CreateEnderecoDTO build(Endereco entity) {
+        CreateEnderecoDTO enderecoDTO = new CreateEnderecoDTO();
+        enderecoDTO.setEstado(entity.getEstado());
+        enderecoDTO.setCidade(entity.getCidade());
+        enderecoDTO.setCep(entity.getCep());
+        enderecoDTO.setBairro(entity.getBairro());
+        enderecoDTO.setRua(entity.getRua());
+        enderecoDTO.setNumero(entity.getNumero());
+        return enderecoDTO;
+    }
 }

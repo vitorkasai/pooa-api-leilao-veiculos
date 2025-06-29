@@ -1,6 +1,7 @@
 package com.ufscar.dc.pooa.leilao.veiculos.builder;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateOfertaDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnOfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Endereco;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
@@ -23,5 +24,22 @@ public class OfertaBuilder {
         oferta.setVeiculo(veiculo);
         oferta.setEndereco(endereco);
         return oferta;
+    }
+
+    public ReturnOfertaDTO build(Oferta entity) {
+        ReturnOfertaDTO ofertaDTO = new ReturnOfertaDTO();
+        ofertaDTO.setId(entity.getId());
+        ofertaDTO.setValorInicial(entity.getValorInicial());
+        ofertaDTO.setValorIncremental(entity.getValorIncremental());
+        ofertaDTO.setEstado(entity.getEstado());
+        EnderecoBuilder enderecoBuilder = new EnderecoBuilder();
+        ofertaDTO.setEndereco(enderecoBuilder.build(entity.getEndereco()));
+        VendedorBuilder vendedorBuilder = new VendedorBuilder();
+        ofertaDTO.setVendedor(vendedorBuilder.build(entity.getVendedor()));
+        VeiculoBuilder veiculoBuilder = new VeiculoBuilder();
+        ofertaDTO.setVeiculo(veiculoBuilder.build(entity.getVeiculo()));
+        ofertaDTO.setDhInicio(entity.getDhInicio());
+        ofertaDTO.setDhFim(entity.getDhFim());
+        return ofertaDTO;
     }
 }
