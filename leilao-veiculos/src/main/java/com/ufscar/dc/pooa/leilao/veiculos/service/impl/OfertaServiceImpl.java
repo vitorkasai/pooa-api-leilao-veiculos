@@ -1,9 +1,16 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+
 import com.ufscar.dc.pooa.leilao.veiculos.builder.EnderecoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.OfertaBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateOfertaDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.ReturnOfertaDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
@@ -15,12 +22,9 @@ import com.ufscar.dc.pooa.leilao.veiculos.repository.OfertaRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VeiculoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VendedorService;
-import com.ufscar.dc.pooa.leilao.veiculos.util.Validators;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.ufscar.dc.pooa.leilao.veiculos.util.ValidatorUtil;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
@@ -53,7 +57,7 @@ public class OfertaServiceImpl implements OfertaService {
     @Override
     public void create(CreateOfertaDTO dto) {
         log.debug("Criando nova oferta: {}", dto);
-        Validators.validate(dto);
+        ValidatorUtil.validate(dto);
 
         Vendedor vendedor = vendedorService.findDomainById(dto.getVendedorId());
 
@@ -62,10 +66,21 @@ public class OfertaServiceImpl implements OfertaService {
             veiculoId = veiculoService.create(dto.getVeiculo());
         }
         Veiculo veiculo = veiculoService.findDomainById(veiculoId);
-
-        Validators.validateDatas(dto, log);
+        validateDatas(dto, log);
 
         dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
+    }
+    
+    private static void validateDatas(CreateOfertaDTO dto, AppLogger log) {
+        LocalDateTime now = LocalDateTime.now();
+        if (dto.getDhInicio().isBefore(now)) {
+            log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);
+            throw new BadRequestException("O dhInicio deve ser mais velha que data atual");
+        }
+        if (dto.getDhInicio().isAfter(dto.getDhFim())) {
+            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dto.getDhFim(), dto.getDhInicio());
+            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
+        }
     }
 }

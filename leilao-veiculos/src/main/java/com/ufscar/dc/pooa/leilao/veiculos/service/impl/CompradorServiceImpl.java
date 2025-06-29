@@ -1,19 +1,18 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import org.springframework.stereotype.Service;
+
 import com.ufscar.dc.pooa.leilao.veiculos.builder.CompradorBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateCompradorDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Comprador;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.CompradorRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CompradorService;
-import com.ufscar.dc.pooa.leilao.veiculos.util.Validators;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import com.ufscar.dc.pooa.leilao.veiculos.util.ValidatorUtil;
 
-import java.util.Optional;
+import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
@@ -31,7 +30,7 @@ public class CompradorServiceImpl implements CompradorService {
     @Override
     public void create(CreateCompradorDTO dto) {
         log.debug("Criando novo comprador: {}", dto);
-        Validators.validate(dto);
+        ValidatorUtil.validate(dto);
         repository.save(builder.build(dto));
     }
 }

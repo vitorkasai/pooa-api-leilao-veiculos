@@ -10,7 +10,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Veiculo;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.VeiculoRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VeiculoService;
-import com.ufscar.dc.pooa.leilao.veiculos.util.Validators;
+import com.ufscar.dc.pooa.leilao.veiculos.util.ValidatorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +31,7 @@ public class VeiculoServiceImpl implements VeiculoService {
     @Override
     public Long create(CreateVeiculoDTO dto) {
         log.debug("Criando novo veículo: {}", dto);
-        Validators.validate(dto);
+        ValidatorUtil.validate(dto);
 
         String tipo = dto.getTipoVeiculo();
         Veiculo veiculo;

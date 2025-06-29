@@ -8,7 +8,7 @@ import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
 import com.ufscar.dc.pooa.leilao.veiculos.repository.VendedorRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VendedorService;
-import com.ufscar.dc.pooa.leilao.veiculos.util.Validators;
+import com.ufscar.dc.pooa.leilao.veiculos.util.ValidatorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +28,7 @@ public class VendedorServiceImpl implements VendedorService {
     @Override
     public void create(CreateVendedorDTO dto) {
     	log.debug("Criando novo vendedor: {}", dto);
-    	Validators.validate(dto);
+    	ValidatorUtil.validate(dto);
     	repository.save(builder.build(dto));
     }
 }
