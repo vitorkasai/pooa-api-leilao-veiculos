@@ -9,6 +9,7 @@ import com.google.crypto.tink.aead.AeadConfig;
 import com.google.crypto.tink.aead.AeadKeyTemplates;
 import com.ufscar.dc.pooa.leilao.veiculos.encryption.EncryptionService;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
@@ -21,7 +22,9 @@ import java.util.Base64;
 public class EncryptionServiceImpl implements EncryptionService {
 
     private Aead aead;
-    private final String keysetFilename = "leilao-keyset.json";
+
+    @Value("${leilao.keyset.filename:leilao-keyset.json}")
+    private String keysetFilename;
 
     @PostConstruct
     public void init() throws GeneralSecurityException, IOException {
