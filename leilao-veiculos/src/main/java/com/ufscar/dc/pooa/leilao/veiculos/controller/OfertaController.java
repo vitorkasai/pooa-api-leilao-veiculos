@@ -34,7 +34,7 @@ public class OfertaController {
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateOfertaDTO dto) {
-        log.info("Criando nova oferta: {}", dto);
+        log.info("Criando uma nova oferta");
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

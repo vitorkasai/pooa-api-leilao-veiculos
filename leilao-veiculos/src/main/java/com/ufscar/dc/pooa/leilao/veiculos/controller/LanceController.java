@@ -39,7 +39,7 @@ public class LanceController {
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateLanceDTO dto) {
-        log.info("Criando novo lance: {}", dto);
+        log.info("Criando um novo lance");
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
