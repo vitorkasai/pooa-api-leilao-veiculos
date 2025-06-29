@@ -15,6 +15,7 @@ public class NotificacaoLanceSuperado implements CreateNotificacaoService {
 	
 	@Override
 	public void createNotificacao(Lance lance) {
-		// TODO Auto-generated method stub
+		String conteudo = "Seu lance de " + lance.getValor() + "R$ foi superado";
+		repository.save(builder.build(conteudo, lance.getComprador()));
 	}
 }

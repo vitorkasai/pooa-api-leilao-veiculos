@@ -63,6 +63,11 @@ public class LanceServiceImpl implements LanceService {
         Lance lance = builder.build(dto, comprador, oferta);
         lance = repository.save(lance);
         
+        if (ultimoLanceOpt.isPresent()) {
+            CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceSuperado");
+            notificacaoService.createNotificacao(ultimoLanceOpt.get());
+        }
+        
         CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceRecebido");
         notificacaoService.createNotificacao(lance);
     }
