@@ -2,6 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.VendedorBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVendedorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.encryption.EncryptionService;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
@@ -18,17 +19,27 @@ public class VendedorServiceImpl implements VendedorService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(CompradorServiceImpl.class);
     private final VendedorRepository repository;;
     private final VendedorBuilder builder;
+    private final EncryptionService encryptionService;
 
     @Override
     public Vendedor findDomainById(Long id) {
         log.debug("Buscando vendedor: {}", id);
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar vendedor de id: " + id));
+        Vendedor vendedor = repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar vendedor de id: " + id));
+
+        vendedor.setDocumento(encryptionService.decrypt(vendedor.getDocumento()));
+        vendedor.setContaBancaria(encryptionService.decrypt(vendedor.getContaBancaria()));
+
+        return vendedor;
     }
     
     @Override
     public void create(CreateVendedorDTO dto) {
     	log.debug("Criando novo vendedor: {}", dto);
     	Validators.validate(dto);
+
+        dto.setContaBancaria(encryptionService.encrypt(dto.getContaBancaria()));
+        dto.setDocumento(encryptionService.encrypt(dto.getDocumento()));
+
     	repository.save(builder.build(dto));
     }
 }
