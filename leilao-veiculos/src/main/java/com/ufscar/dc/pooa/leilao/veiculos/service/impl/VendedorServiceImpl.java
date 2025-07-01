@@ -20,7 +20,7 @@ import org.springframework.stereotype.Service;
 public class VendedorServiceImpl implements VendedorService {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(CompradorServiceImpl.class);
     private final UsuarioService usuarioService;
-    private final VendedorRepository repository;;
+    private final VendedorRepository repository;
     private final VendedorBuilder builder;
 
     @Override
@@ -34,10 +34,10 @@ public class VendedorServiceImpl implements VendedorService {
     	log.debug("Criando novo vendedor: {}", dto);
     	ValidatorUtil.validate(dto);
         usuarioService.findOptDomainByEmail(dto.getEmail()).ifPresent((Usuario usuario) -> {
-            throw new BadRequestException("Falha ao criar leiloeiro, já existe um com o email " + dto.getEmail());
+            throw new BadRequestException("Falha ao criar vendedor, já existe um com o email " + dto.getEmail());
         });
         usuarioService.findOptDomainByDocumento(dto.getEmail()).ifPresent((Usuario usuario) -> {
-            throw new BadRequestException("Falha ao criar leiloeiro, já existe um com o documento " + dto.getDocumento());
+            throw new BadRequestException("Falha ao criar vendedor, já existe um com o documento " + dto.getDocumento());
         });
     	repository.save(builder.build(dto));
     }
