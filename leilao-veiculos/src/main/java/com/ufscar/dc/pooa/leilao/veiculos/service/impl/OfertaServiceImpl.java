@@ -1,12 +1,5 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import com.ufscar.dc.pooa.leilao.veiculos.util.CalculatorUtil;
-import org.springframework.stereotype.Service;
-
 import com.ufscar.dc.pooa.leilao.veiculos.builder.EnderecoBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.OfertaBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateOfertaDTO;
@@ -23,9 +16,14 @@ import com.ufscar.dc.pooa.leilao.veiculos.repository.OfertaRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VeiculoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.VendedorService;
+import com.ufscar.dc.pooa.leilao.veiculos.util.CalculatorUtil;
 import com.ufscar.dc.pooa.leilao.veiculos.util.ValidatorUtil;
-
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -36,18 +34,23 @@ public class OfertaServiceImpl implements OfertaService {
     private final EnderecoBuilder enderecoBuilder;
     private final OfertaBuilder builder;
     private final OfertaRepository repository;
-    private final OfertaService ofertaService;
 
     @Override
     public Oferta findDomainById(Long id) {
         log.debug("Buscando oferta: {}", id);
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar oferta de id: " + id));
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar oferta de ID: " + id));
     }
 
     @Override
     public List<ReturnOfertaDTO> findAll() {
         log.debug("Listando todas as ofertas");
         return repository.findAll().stream().map(builder::build).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<Oferta> findAllDomain() {
+        log.debug("Listando todas as ofertas");
+        return repository.findAll();
     }
 
     @Override
@@ -76,7 +79,7 @@ public class OfertaServiceImpl implements OfertaService {
 
     @Override
     public void update(Long id, CreateOfertaDTO dto) {
-        log.debug("Atualizando oferta {}: {}", id, dto);
+        log.debug("Atualizando oferta de ID {}: {}", id, dto);
         ValidatorUtil.validate(id, dto);
 
         Oferta oferta = findDomainById(id);
@@ -119,38 +122,30 @@ public class OfertaServiceImpl implements OfertaService {
     }
 
     @Override
-    public void cancel(Long id) {
-        log.debug("Cancelando oferta de ID: {}", id);
+    public void updateEstado(Long id, Estado estado) {
+        log.debug("Atualizando estado da oferta de ID {}: {}", id, estado);
         Oferta oferta = findDomainById(id);
-        validateCancelarOferta(oferta);
 
-        oferta.setEstado(Estado.CANCELADO);
+        oferta.setEstado(estado);
         repository.save(oferta);
     }
     
     private static void validateDatas(LocalDateTime dhInicio, LocalDateTime dhFim) {
         LocalDateTime now = LocalDateTime.now();
         if (dhInicio.isBefore(now)) {
-            log.error("O dhInicio {} deve ser mais velha que data atual {}", dhInicio, now);
-            throw new BadRequestException("O dhInicio deve ser mais velha que data atual");
+            log.error("A dhInicio {} deve ser mais velha que data atual {}", dhInicio, now);
+            throw new BadRequestException("A dhInicio deve ser mais velha que data atual");
         }
         if (dhInicio.isAfter(dhFim)) {
-            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dhFim, dhInicio);
-            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
+            log.error("A dhFim {} deve ser mais velha que dhInicio {}", dhFim, dhInicio);
+            throw new BadRequestException("A dhFim deve ser mais velha que dhInicio");
         }
     }
 
     private static void validateDatasAtualizacao(LocalDateTime dhInicio, LocalDateTime dhFim) {
         if (dhInicio.isAfter(dhFim)) {
-            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dhFim, dhInicio);
-            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
-        }
-    }
-
-    private static void validateCancelarOferta(Oferta oferta) {
-        if (oferta.getEstado() == Estado.FINALIZADO) {
-            log.error("Uma oferta finalizada não pode ser cancelada. Oferta ID: {}", oferta.getId());
-            throw new BadRequestException("Uma oferta finalizada não pode ser cancelada");
+            log.error("A dhFim {} deve ser mais velha que dhInicio {}", dhFim, dhInicio);
+            throw new BadRequestException("A dhFim deve ser mais velha que dhInicio");
         }
     }
 }

@@ -10,8 +10,9 @@ import java.util.List;
 public interface OfertaService {
     Oferta findDomainById(Long id);
     List<ReturnOfertaDTO> findAll();
+    List<Oferta> findAllDomain();
     List<ReturnOfertaDTO> findAllByEstado(Estado estado);
     void create(CreateOfertaDTO dto);
     void update(Long id, CreateOfertaDTO dto);
-    void cancel(Long id);
+    void updateEstado(Long id, Estado estado);
 }

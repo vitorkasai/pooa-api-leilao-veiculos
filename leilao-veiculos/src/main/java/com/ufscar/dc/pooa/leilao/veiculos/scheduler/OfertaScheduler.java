@@ -5,9 +5,9 @@ import com.ufscar.dc.pooa.leilao.veiculos.indicator.Estado;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Lance;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Oferta;
-import com.ufscar.dc.pooa.leilao.veiculos.repository.OfertaRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CreateNotificacaoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
+import com.ufscar.dc.pooa.leilao.veiculos.service.OfertaService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.impl.VeiculoServiceImpl;
 import com.ufscar.dc.pooa.leilao.veiculos.util.CalculatorUtil;
 import lombok.RequiredArgsConstructor;
@@ -17,12 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Component
 public class OfertaScheduler {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
-    private final OfertaRepository repository;
+    private final OfertaService ofertaService;
     private final LanceService lanceService;
     private final Map<String, CreateNotificacaoService> notificacaoStrategy;
 
@@ -30,19 +31,22 @@ public class OfertaScheduler {
     @Scheduled(cron = "0 * * * * *")
     public void syncEstados() {
         log.info("Iniciando sincronização dos estados das ofertas");
-        List<Oferta> ofertas = repository.findAll();
+        List<Oferta> ofertas = ofertaService.findAllDomain();
         ofertas.forEach(oferta -> {
             Estado estadoAnterior = oferta.getEstado();
             Estado novoEstado = CalculatorUtil.calculateEstado(oferta);
             if (estadoAnterior != Estado.CANCELADO && estadoAnterior != novoEstado) {
                 oferta.setEstado(novoEstado);
                 log.info("Oferta {} sincronizada de {} para {}", oferta.getId(), estadoAnterior, novoEstado);
-                repository.save(oferta);
+                ofertaService.updateEstado(oferta.getId(), novoEstado);
+                System.out.println(oferta.getId());
 
                 if (novoEstado == Estado.FINALIZADO) {
-                    Lance ultimoLance = lanceService.findUltimoLance(oferta.getId());
-                    CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceArrematado");
-                    notificacaoService.createNotificacao(ultimoLance);
+                    Optional<Lance> ultimoLanceOpt = lanceService.findVencedorOptDomainByOfertaId(oferta.getId());
+                    ultimoLanceOpt.ifPresent((ultimoLance) -> {
+                        CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceArrematado");
+                        notificacaoService.createNotificacao(ultimoLance);
+                    });
                 }
             }
         });

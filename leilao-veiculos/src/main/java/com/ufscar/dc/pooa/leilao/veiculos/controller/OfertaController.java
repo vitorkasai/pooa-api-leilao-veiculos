@@ -48,8 +48,8 @@ public class OfertaController {
 
     @PatchMapping("/{id}/cancel")
     public ResponseEntity<Void> cancel(@PathVariable Long id) {
-        log.info("Cancelando oferta de ID: {}", id);
-        service.cancel(id);
+        log.info("Cancelando uma oferta");
+        service.updateEstado(id, Estado.CANCELADO);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

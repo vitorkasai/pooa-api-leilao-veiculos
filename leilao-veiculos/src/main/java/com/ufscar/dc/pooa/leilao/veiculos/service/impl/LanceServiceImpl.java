@@ -61,9 +61,9 @@ public class LanceServiceImpl implements LanceService {
     }
     
     @Override
-    public Lance findUltimoLance(Long ofertaId) {
+    public Optional<Lance> findVencedorOptDomainByOfertaId(Long ofertaId) {
     	log.debug("Buscando ultimo lance da oferta de ID: {}", ofertaId);
-    	return repository.findFirstByOfertaIdOrderByDhCriacaoDesc(ofertaId).orElseThrow(() -> new NotFoundException("Falha ao validar oferta"));
+    	return repository.findFirstByOfertaIdOrderByDhCriacaoDesc(ofertaId);
     }
 
     @Override
