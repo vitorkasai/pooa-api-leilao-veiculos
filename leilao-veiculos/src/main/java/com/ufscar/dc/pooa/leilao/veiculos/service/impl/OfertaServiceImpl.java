@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.ufscar.dc.pooa.leilao.veiculos.util.CalculatorUtil;
 import org.springframework.stereotype.Service;
 
 import com.ufscar.dc.pooa.leilao.veiculos.builder.EnderecoBuilder;
@@ -35,6 +36,7 @@ public class OfertaServiceImpl implements OfertaService {
     private final EnderecoBuilder enderecoBuilder;
     private final OfertaBuilder builder;
     private final OfertaRepository repository;
+    private final OfertaService ofertaService;
 
     @Override
     public Oferta findDomainById(Long id) {
@@ -66,10 +68,54 @@ public class OfertaServiceImpl implements OfertaService {
             veiculoId = veiculoService.create(dto.getVeiculo());
         }
         Veiculo veiculo = veiculoService.findDomainById(veiculoId);
-        validateDatas(dto);
+        validateDatas(dto.getDhInicio(), dto.getDhFim());
 
         dto.setEstado(Estado.NAO_INICIADO);
         repository.save(builder.build(dto, vendedor, veiculo, enderecoBuilder.build(dto.getEndereco())));
+    }
+
+    @Override
+    public void update(Long id, CreateOfertaDTO dto) {
+        log.debug("Atualizando oferta {}: {}", id, dto);
+        ValidatorUtil.validate(id, dto);
+
+        Oferta oferta = findDomainById(id);
+
+        if (dto.getDhInicio() != null) {
+            oferta.setDhInicio(dto.getDhInicio());
+        }
+
+        if (dto.getDhFim() != null) {
+            oferta.setDhFim(dto.getDhFim());
+        }
+
+        validateDatasAtualizacao(oferta.getDhInicio(), oferta.getDhFim());
+
+        if (dto.getVendedorId() != null) {
+            Vendedor vendedor = vendedorService.findDomainById(dto.getVendedorId());
+            oferta.setVendedor(vendedor);
+        }
+
+        if (dto.getVeiculoId() != null || dto.getVeiculo() != null) {
+            Long veiculoId = dto.getVeiculo() != null ? veiculoService.create(dto.getVeiculo()) : dto.getVeiculoId();
+            Veiculo veiculo = veiculoService.findDomainById(veiculoId);
+            oferta.setVeiculo(veiculo);
+        }
+
+        if (dto.getEndereco() != null) {
+            oferta.setEndereco(enderecoBuilder.build(dto.getEndereco()));
+        }
+
+        if (dto.getValorInicial() != null) {
+            oferta.setValorInicial(dto.getValorInicial());
+        }
+
+        if (dto.getValorIncremental() != null) {
+            oferta.setValorIncremental(dto.getValorIncremental());
+        }
+
+        oferta.setEstado(CalculatorUtil.calculateEstado(oferta));
+        repository.save(oferta);
     }
 
     @Override
@@ -82,14 +128,21 @@ public class OfertaServiceImpl implements OfertaService {
         repository.save(oferta);
     }
     
-    private static void validateDatas(CreateOfertaDTO dto) {
+    private static void validateDatas(LocalDateTime dhInicio, LocalDateTime dhFim) {
         LocalDateTime now = LocalDateTime.now();
-        if (dto.getDhInicio().isBefore(now)) {
-            log.error("O dhInicio {} deve ser mais velha que data atual {}", dto.getDhInicio(), now);
+        if (dhInicio.isBefore(now)) {
+            log.error("O dhInicio {} deve ser mais velha que data atual {}", dhInicio, now);
             throw new BadRequestException("O dhInicio deve ser mais velha que data atual");
         }
-        if (dto.getDhInicio().isAfter(dto.getDhFim())) {
-            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dto.getDhFim(), dto.getDhInicio());
+        if (dhInicio.isAfter(dhFim)) {
+            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dhFim, dhInicio);
+            throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
+        }
+    }
+
+    private static void validateDatasAtualizacao(LocalDateTime dhInicio, LocalDateTime dhFim) {
+        if (dhInicio.isAfter(dhFim)) {
+            log.error("O dhFim {} deve ser mais velha que dhInicio {}", dhFim, dhInicio);
             throw new BadRequestException("O dhFim deve ser mais velha que dhInicio");
         }
     }

@@ -9,12 +9,12 @@ import com.ufscar.dc.pooa.leilao.veiculos.repository.OfertaRepository;
 import com.ufscar.dc.pooa.leilao.veiculos.service.CreateNotificacaoService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.LanceService;
 import com.ufscar.dc.pooa.leilao.veiculos.service.impl.VeiculoServiceImpl;
+import com.ufscar.dc.pooa.leilao.veiculos.util.CalculatorUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -33,27 +33,19 @@ public class OfertaScheduler {
         List<Oferta> ofertas = repository.findAll();
         ofertas.forEach(oferta -> {
             Estado estadoAnterior = oferta.getEstado();
-            Estado novoEstado = calculateEstado(oferta);
+            Estado novoEstado = CalculatorUtil.calculateEstado(oferta);
             if (estadoAnterior != Estado.CANCELADO && estadoAnterior != novoEstado) {
                 oferta.setEstado(novoEstado);
                 log.info("Oferta {} sincronizada de {} para {}", oferta.getId(), estadoAnterior, novoEstado);
                 repository.save(oferta);
+
+                if (novoEstado == Estado.FINALIZADO) {
+                    Lance ultimoLance = lanceService.findUltimoLance(oferta.getId());
+                    CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceArrematado");
+                    notificacaoService.createNotificacao(ultimoLance);
+                }
             }
         });
         log.info("Sincronização dos estados das ofertas concluída");
-    }
-
-    private Estado calculateEstado(Oferta oferta) {
-        LocalDateTime agora = LocalDateTime.now();
-        if (agora.isBefore(oferta.getDhInicio())) {
-            return Estado.NAO_INICIADO;
-        } else if (!agora.isAfter(oferta.getDhFim())) {
-            return Estado.EM_ANDAMENTO;
-        } else {
-        	Lance ultimoLance = lanceService.findUltimoLance(oferta.getId());
-            CreateNotificacaoService notificacaoService = notificacaoStrategy.get("lanceArrematado");
-            notificacaoService.createNotificacao(ultimoLance);
-            return Estado.FINALIZADO;
-        }
     }
 }

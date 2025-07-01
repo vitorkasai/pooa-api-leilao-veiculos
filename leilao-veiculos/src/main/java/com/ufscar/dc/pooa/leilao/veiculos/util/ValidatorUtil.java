@@ -2,12 +2,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.util;
 
 import java.util.Optional;
 
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateCompradorDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateEnderecoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateLanceDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateOfertaDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVeiculoDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVendedorDTO;
+import com.ufscar.dc.pooa.leilao.veiculos.dto.*;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.indicator.TipoVeiculo;
 
@@ -41,6 +36,24 @@ public class ValidatorUtil {
 		}
 
 		validate(dto.getEndereco());
+	}
+
+	public static void validate(Long id, CreateOfertaDTO dto) {
+		Optional.ofNullable(id)
+				.orElseThrow(() -> new BadRequestException("Campo id é obrigatório"));
+
+		boolean veiculoIdPresente = dto.getVeiculoId() != null;
+		boolean veiculoDtoPresente = dto.getVeiculo() != null;
+		if (veiculoIdPresente && veiculoDtoPresente) {
+			throw new BadRequestException("É necessário informar apenas o ID de um veículo existente ou apenas os dados para criar um novo veículo");
+		}
+		if (veiculoDtoPresente) {
+			validate(dto.getVeiculo());
+		}
+
+		if (dto.getEndereco() != null) {
+			validate(dto.getEndereco());
+		}
 	}
 
 	public static void validate(CreateVeiculoDTO dto) {
@@ -87,7 +100,7 @@ public class ValidatorUtil {
 	}
 
 	public static void validate(CreateCompradorDTO dto) {
-		validatePessoa(dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getTelefone(), dto.getDocumento());
+		validateUsuario(dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getTelefone(), dto.getDocumento());
 		Optional.ofNullable(dto.getInteresse())
 				.orElseThrow(() -> new BadRequestException("Campo interesse é obrigatório"));
 		Optional.ofNullable(dto.getDataNascimento())
@@ -95,14 +108,24 @@ public class ValidatorUtil {
 	}
 
 	public static void validate(CreateVendedorDTO dto) {
-		validatePessoa(dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getTelefone(), dto.getDocumento());
+		validateUsuario(dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getTelefone(), dto.getDocumento());
 		Optional.ofNullable(dto.getNomeFantasia())
 				.orElseThrow(() -> new BadRequestException("Campo nomeFantasia é obrigatório"));
 		Optional.ofNullable(dto.getContaBancaria())
 				.orElseThrow(() -> new BadRequestException("Campo contaBancaria é obrigatório"));
 	}
 
-	private static void validatePessoa(String nome, String sobrenome, String email, String telefone, String documento) {
+	public static void validate(CreateLeiloeiroDTO dto) {
+		validateUsuario(dto.getNome(), dto.getSobrenome(), dto.getEmail(), dto.getTelefone(), dto.getDocumento());
+		Optional.ofNullable(dto.getNomeFantasia())
+				.orElseThrow(() -> new BadRequestException("Campo nomeFantasia é obrigatório"));
+		Optional.ofNullable(dto.getContaBancaria())
+				.orElseThrow(() -> new BadRequestException("Campo contaBancaria é obrigatório"));
+		Optional.ofNullable(dto.getOrgaoRegulador())
+				.orElseThrow(() -> new BadRequestException("Campo orgaoRegulador é obrigatório"));
+	}
+
+	private static void validateUsuario(String nome, String sobrenome, String email, String telefone, String documento) {
 		Optional.ofNullable(nome).orElseThrow(() -> new BadRequestException("Campo nome é obrigatório"));
 		Optional.ofNullable(sobrenome).orElseThrow(() -> new BadRequestException("Campo sobrenome é obrigatório"));
 		Optional.ofNullable(email).orElseThrow(() -> new BadRequestException("Campo email é obrigatório"));

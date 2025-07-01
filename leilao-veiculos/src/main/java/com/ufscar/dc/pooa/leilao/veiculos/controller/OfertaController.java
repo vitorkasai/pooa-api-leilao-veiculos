@@ -39,6 +39,13 @@ public class OfertaController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CreateOfertaDTO dto) {
+        log.info("Atualizando uma oferta");
+        service.update(id, dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PatchMapping("/{id}/cancel")
     public ResponseEntity<Void> cancel(@PathVariable Long id) {
         log.info("Cancelando oferta de ID: {}", id);
