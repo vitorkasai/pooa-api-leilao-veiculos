@@ -46,6 +46,9 @@ public class VendedorServiceImpl implements VendedorService {
         usuarioService.findOptDomainByDocumento(dto.getEmail()).ifPresent((Usuario usuario) -> {
             throw new BadRequestException("Falha ao criar vendedor, já existe um com o documento " + dto.getDocumento());
         });
+
+        dto.setContaBancaria(encryptionService.encrypt(dto.getContaBancaria()));
+        dto.setDocumento(encryptionService.encrypt(dto.getDocumento()));
     	repository.save(builder.build(dto));
     }
 }
