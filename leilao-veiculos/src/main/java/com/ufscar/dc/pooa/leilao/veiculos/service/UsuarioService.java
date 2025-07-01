@@ -6,5 +6,5 @@ import java.util.Optional;
 
 public interface UsuarioService {
     Optional<Usuario> findOptDomainByEmail(String email);
-    Optional<Usuario> findOptDomainByDocumento(String documentp);
+    Optional<Usuario> findOptDomainByDocumento(String documento);
 }
