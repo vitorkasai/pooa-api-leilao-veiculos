@@ -23,7 +23,7 @@ public class VendedorController {
 	
 	@PostMapping
 	public ResponseEntity<Void> create(@RequestBody CreateVendedorDTO dto) {
-		log.info("Criando novo vendedor: {}", dto);
+		log.info("Criando um novo vendedor");
 		service.create(dto);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}

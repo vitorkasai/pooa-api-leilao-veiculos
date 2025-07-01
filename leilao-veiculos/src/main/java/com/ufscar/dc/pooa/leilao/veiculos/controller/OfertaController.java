@@ -34,8 +34,22 @@ public class OfertaController {
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateOfertaDTO dto) {
-        log.info("Criando nova oferta: {}", dto);
+        log.info("Criando uma nova oferta");
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody CreateOfertaDTO dto) {
+        log.info("Atualizando uma oferta");
+        service.update(id, dto);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/cancel")
+    public ResponseEntity<Void> cancel(@PathVariable Long id) {
+        log.info("Cancelando uma oferta");
+        service.updateEstado(id, Estado.CANCELADO);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

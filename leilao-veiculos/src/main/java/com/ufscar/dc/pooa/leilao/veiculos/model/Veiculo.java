@@ -1,22 +1,28 @@
 package com.ufscar.dc.pooa.leilao.veiculos.model;
 
-import jakarta.persistence.*;
+import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.DiscriminatorColumn;
+import jakarta.persistence.DiscriminatorType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @Setter
 @Table(schema = "LEILAO_VEICULOS", name = "TB_VEICULO")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(
-        name = "TIPO_VEICULO",
-        discriminatorType = DiscriminatorType.STRING
-)
+@DiscriminatorColumn(name = "TIPO_VEICULO", discriminatorType = DiscriminatorType.STRING)
 @AllArgsConstructor
 @NoArgsConstructor
 public abstract class Veiculo {
@@ -46,13 +52,4 @@ public abstract class Veiculo {
     @Column(name = "DESCRICAO", length = 255)
     private String descricao;
 
-    protected Veiculo(String modelo, LocalDateTime dhCriacao, String placa, String cor, String renavam, int quilometragem, String descricao) {
-        this.modelo = modelo;
-        this.dhCriacao = dhCriacao;
-        this.placa = placa;
-        this.cor = cor;
-        this.renavam = renavam;
-        this.quilometragem = quilometragem;
-        this.descricao = descricao;
-    }
 }

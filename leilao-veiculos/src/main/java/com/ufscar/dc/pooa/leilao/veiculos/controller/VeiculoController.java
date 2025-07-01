@@ -16,13 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/veiculo")
 public class VeiculoController {
-
     private static final AppLogger log =  AppLoggerFactory.getAppLogger(VeiculoController.class);
     private final VeiculoService service;
 
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateVeiculoDTO dto) {
-        log.info("Criando novo veiculo: {}", dto);
+        log.info("Criando um novo veiculo: {}");
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

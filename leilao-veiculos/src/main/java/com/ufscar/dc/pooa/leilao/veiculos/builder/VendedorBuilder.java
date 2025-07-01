@@ -5,14 +5,12 @@ import java.time.LocalDateTime;
 import org.springframework.stereotype.Component;
 
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVendedorDTO;
-import com.ufscar.dc.pooa.leilao.veiculos.indicator.UsuarioPapel;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Vendedor;
 
 @Component
 public class VendedorBuilder {
 	public Vendedor build(CreateVendedorDTO dto) {
 		Vendedor vendedor = new Vendedor();
-        vendedor.setPapel(UsuarioPapel.VENDEDOR.getValue());
         vendedor.setNome(dto.getNome());
         vendedor.setSobrenome(dto.getSobrenome());
         vendedor.setEmail(dto.getEmail());

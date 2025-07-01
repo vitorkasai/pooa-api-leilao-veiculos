@@ -19,15 +19,27 @@ public class LanceController {
     private static final AppLogger log = AppLoggerFactory.getAppLogger(LanceController.class);
     private final LanceService service;
 
+    @GetMapping("/oferta/{ofertaId}/vencedor")
+    public ResponseEntity<ReturnLanceDTO> findVencedorByOfertaId(@PathVariable Long ofertaId) {
+        log.info("Buscando lance vencedor com oferta de ID: {}", ofertaId);
+        return new ResponseEntity<>(service.findVencedorByOfertaId(ofertaId), HttpStatus.OK);
+    }
+
     @GetMapping("/oferta/{ofertaId}")
-    public ResponseEntity<List<ReturnLanceDTO>> findAllByOfferId(@PathVariable Long ofertaId) {
+    public ResponseEntity<List<ReturnLanceDTO>> findAllByOfertaId(@PathVariable Long ofertaId) {
         log.info("Listando todos os lances com oferta de ID: {}", ofertaId);
         return new ResponseEntity<>(service.findAllByOfertaId(ofertaId), HttpStatus.OK);
     }
 
+    @GetMapping("/comprador/{compradorId}")
+    public ResponseEntity<List<ReturnLanceDTO>> findAllByCompradorId(@PathVariable Long compradorId) {
+        log.info("Listando todos os lances com comprador de ID: {}", compradorId);
+        return new ResponseEntity<>(service.findAllByCompradorId(compradorId), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Void> create(@RequestBody CreateLanceDTO dto) {
-        log.info("Criando novo lance: {}", dto);
+        log.info("Criando um novo lance");
         service.create(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
