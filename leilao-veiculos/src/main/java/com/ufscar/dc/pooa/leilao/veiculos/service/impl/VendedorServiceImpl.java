@@ -3,6 +3,7 @@ package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 import com.ufscar.dc.pooa.leilao.veiculos.builder.VendedorBuilder;
 import com.ufscar.dc.pooa.leilao.veiculos.dto.CreateVendedorDTO;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
+import com.ufscar.dc.pooa.leilao.veiculos.encryption.EncryptionService;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.NotFoundException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
@@ -22,11 +23,17 @@ public class VendedorServiceImpl implements VendedorService {
     private final UsuarioService usuarioService;
     private final VendedorRepository repository;
     private final VendedorBuilder builder;
+    private final EncryptionService encryptionService;
 
     @Override
     public Vendedor findDomainById(Long id) {
         log.debug("Buscando vendedor: {}", id);
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar vendedor de id: " + id));
+        Vendedor vendedor = repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar vendedor de id: " + id));
+
+        vendedor.setDocumento(encryptionService.decrypt(vendedor.getDocumento()));
+        vendedor.setContaBancaria(encryptionService.decrypt(vendedor.getContaBancaria()));
+
+        return vendedor;
     }
     
     @Override
@@ -39,6 +46,9 @@ public class VendedorServiceImpl implements VendedorService {
         usuarioService.findOptDomainByDocumento(dto.getEmail()).ifPresent((Usuario usuario) -> {
             throw new BadRequestException("Falha ao criar vendedor, já existe um com o documento " + dto.getDocumento());
         });
+
+        dto.setContaBancaria(encryptionService.encrypt(dto.getContaBancaria()));
+        dto.setDocumento(encryptionService.encrypt(dto.getDocumento()));
     	repository.save(builder.build(dto));
     }
 }

@@ -1,5 +1,6 @@
 package com.ufscar.dc.pooa.leilao.veiculos.service.impl;
 
+import com.ufscar.dc.pooa.leilao.veiculos.encryption.EncryptionService;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.model.Usuario;
 import com.ufscar.dc.pooa.leilao.veiculos.service.UsuarioService;
@@ -24,11 +25,16 @@ public class CompradorServiceImpl implements CompradorService {
     private final UsuarioService usuarioService;
     private final CompradorRepository repository;
     private final CompradorBuilder builder;
+    private final EncryptionService encryptionService;
 
     @Override
     public Comprador findDomainById(Long id) {
         log.debug("Buscando comprador: {}", id);
-        return repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar comprador de id: " + id));
+        Comprador comprador = repository.findById(id).orElseThrow(() -> new NotFoundException("Falha ao validar comprador de id: " + id));
+
+        comprador.setDocumento(encryptionService.decrypt(comprador.getDocumento()));
+
+        return  comprador;
     }
 
     @Override
@@ -41,6 +47,8 @@ public class CompradorServiceImpl implements CompradorService {
         usuarioService.findOptDomainByDocumento(dto.getEmail()).ifPresent((Usuario usuario) -> {
             throw new BadRequestException("Falha ao criar comprador, já existe um com o documento " + dto.getDocumento());
         });
+
+        dto.setDocumento(encryptionService.encrypt(dto.getDocumento()));
         repository.save(builder.build(dto));
     }
 }
