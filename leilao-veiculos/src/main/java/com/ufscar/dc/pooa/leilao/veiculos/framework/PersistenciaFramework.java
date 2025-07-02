@@ -3,19 +3,21 @@ package com.ufscar.dc.pooa.leilao.veiculos.framework;
 import com.ufscar.dc.pooa.leilao.veiculos.exception.BadRequestException;
 import com.ufscar.dc.pooa.leilao.veiculos.factory.AppLoggerFactory;
 import com.ufscar.dc.pooa.leilao.veiculos.logger.AppLogger;
-import com.ufscar.dc.pooa.leilao.veiculos.service.impl.VeiculoServiceImpl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
 import java.sql.*;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
 public class PersistenciaFramework {
-	private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
+	private static final AppLogger log = AppLoggerFactory.getAppLogger(PersistenciaFramework.class);
 
 	@Value("${spring.datasource.url}")
 	private String url;
