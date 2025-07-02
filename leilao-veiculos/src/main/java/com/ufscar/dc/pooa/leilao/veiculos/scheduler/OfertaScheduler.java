@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 @Component
 public class OfertaScheduler {
-    private static final AppLogger log = AppLoggerFactory.getAppLogger(VeiculoServiceImpl.class);
+    private static final AppLogger log = AppLoggerFactory.getAppLogger(OfertaScheduler.class);
     private final OfertaService ofertaService;
     private final LanceService lanceService;
     private final Map<String, CreateNotificacaoService> notificacaoStrategy;
@@ -39,7 +39,6 @@ public class OfertaScheduler {
                 oferta.setEstado(novoEstado);
                 log.info("Oferta {} sincronizada de {} para {}", oferta.getId(), estadoAnterior, novoEstado);
                 ofertaService.updateEstado(oferta.getId(), novoEstado);
-                System.out.println(oferta.getId());
 
                 if (novoEstado == Estado.FINALIZADO) {
                     Optional<Lance> ultimoLanceOpt = lanceService.findVencedorOptDomainByOfertaId(oferta.getId());
